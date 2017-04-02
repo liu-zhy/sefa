@@ -1,0 +1,16 @@
+q:what is meaning of sefa?
+	a:sefa is abbreviation of Script dErived From jAva
+
+the rule of generator:
+note : [] is repeating 0 or 1,{} is repeating more than 0;
+
+	primary		:	"("expr")¡° | NUMBER	| IDENTIFIER	|STRING
+	factor		:	"-"primary	| primary
+	expr		£º	factor	{OP factor}
+	block		:	"{" [statement] {(";"|EOL) [statement]} "}"
+	statement	:	"if" expr block ["else" block]
+					| "while" expr block
+					|	expr
+	program		:	[statement]	(","|EOL) ;
+	
+	
