@@ -58,6 +58,9 @@ public class Parser {
 		ArrayList<ASTree> results = new ArrayList<ASTree>() ;
 		for(Element e : elements)
 			e.parse(lexer,results);
+		// 测试有没有空结点
+		/*if(results.size() == 0)
+			System.out.println("Empty node!!!!!!!!!!");*/
 		return factory.make(results);
 	}
 

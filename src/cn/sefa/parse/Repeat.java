@@ -5,6 +5,7 @@ package cn.sefa.parse;
 
 import java.util.List;
 
+import cn.sefa.ast.ASTList;
 import cn.sefa.ast.ASTree;
 import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
@@ -27,7 +28,8 @@ public class Repeat extends Element {
 		
 		while(parser.match(lexer)){
 			ASTree t = parser.parse(lexer);
-			res.add(t);
+			if(t.getClass()!=ASTList.class || t.numOfChildren()>0)
+				res.add(t);
 			if(onlyOnce)
 				break ;
 		}
