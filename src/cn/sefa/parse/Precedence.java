@@ -9,10 +9,10 @@ package cn.sefa.parse;
  */
 public class Precedence {
 
-	public final int prec ;
+	public final int value ;
 	public final boolean leftAssoc ;
-	public Precedence(int prec , boolean leftAssoc){
-		this.prec = prec ;
+	public Precedence(int value , boolean leftAssoc){
+		this.value = value ;
 		this.leftAssoc = leftAssoc ;
 	}
 

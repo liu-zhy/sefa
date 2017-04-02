@@ -10,6 +10,7 @@ import javax.swing.text.AbstractDocument.LeafElement;
 import cn.sefa.ast.ASTree;
 import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
+import cn.sefa.util.Debug;
 
 /**
  * @author Lionel
@@ -25,6 +26,7 @@ public class OrTree extends Element{
 			throws ParseException {
 		
 		Parser p = choose(lexer);
+//		Debug.printToken(lexer.peek(0));
 		if(p == null){
 			throw new ParseException(lexer.peek(0));
 		}
@@ -33,6 +35,7 @@ public class OrTree extends Element{
 		}
 		
 	}
+	
 	/**
 	 * @param lexer
 	 * @return

@@ -27,13 +27,14 @@ public class BasicParser {
 	HashSet<String> reserved = new HashSet<String>() ;
 	Operators operators = Operators.getInstance();
 	Parser expr0 = Parser.rule() ;
-	Parser primary = Parser.rule(PrimaryExpr.class)
+	Parser primary = Parser.rule()
 			.or(Parser.rule().sep("(").ast(expr0).sep(")") ,
 				Parser.rule().number(NumberLiteral.class),
 				Parser.rule().identifier(IdLeaf.class , reserved),
 				Parser.rule().string(StringLiteral.class));
 	
-	Parser factor = Parser.rule().or(Parser.rule(NegativeExpr.class).sep("-").ast(primary)) ;
+	Parser factor = Parser.rule().or(Parser.rule(NegativeExpr.class).sep("-").ast(primary)
+										,primary) ;
 	
 	Parser expr = expr0.expression(BinaryExpr.class,factor,operators);
 	

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.sefa.parse;
 
 import java.util.HashSet;
@@ -23,11 +20,8 @@ public class IdToken extends AToken {
 
 	@Override
 	public boolean test(Token peek) {
-		for(String r : reserved){
-			if(r.equals(peek.getText()));
-				return false ;
-		}
-		return true;
+		
+		return peek.isIdentifier() && !reserved.contains(peek.getText());
 	}
 
 }

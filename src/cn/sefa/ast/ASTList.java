@@ -49,11 +49,13 @@ public class ASTList extends ASTree {
 
 	@Override
 	public String toString() {
-		
-		return "ASTList [children=" + children + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		for(ASTree t : children){
+			sb.append(" "+t.toString());
+			
+		}
+		return sb.append(")").toString();
 	}
 	
-	
-	
-
 }

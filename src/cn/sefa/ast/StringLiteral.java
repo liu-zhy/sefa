@@ -21,5 +21,13 @@ public class StringLiteral extends ASTLeaf {
 	public String value(){
 		return super.token.getText();
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\""+token.getText()+"\"";
+	}
+	
 
 }

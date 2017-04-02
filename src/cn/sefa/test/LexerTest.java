@@ -25,7 +25,7 @@ public class LexerTest {
 
 	@Test
 	public void test1() throws FileNotFoundException, ParseException{
-		File file = new File("C:\\Users\\Lionel\\Desktop\\1.sf");
+		File file = new File("C:\\Users\\Lionel\\Desktop\\2.sf");
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		Lexer lexer = new Lexer(reader);
 		Token t = lexer.read();

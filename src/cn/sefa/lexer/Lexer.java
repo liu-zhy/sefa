@@ -30,7 +30,7 @@ public class Lexer {
 	public static String idePat = "([a-z_A-Z][a-z_A-Z0-9]*";//匹配标识符
 	public static String operPat = "==|<=|>=|&&|\\|\\||\\p{Punct})" ;	//匹配操作符 \p{Punct} 标点符号：!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ 
 	public static String regexPat = blaPat+"((//.*)|"+integerPat+"|"
-			+strPat+"|"+idePat+"|"+operPat+")";
+			+strPat+"|"+idePat+"|"+operPat+")?";
 	
 	private Pattern pattern = Pattern.compile(regexPat);
 	private ArrayList<Token> tokenList =  new ArrayList<Token>();
@@ -41,7 +41,7 @@ public class Lexer {
 		hasMore = true ;
 		reader = new LineNumberReader(r) ;
 	}
-	
+	//从缓冲区中移出一个token，并将返回此token
 	public Token read() throws ParseException{
 		
 		if(isTokenEnough(0)){
@@ -50,19 +50,15 @@ public class Lexer {
 		
 		return Token.EOF;
 	}
-	
+	//从缓冲区中预取出一个token，但不移出。
 	public Token peek(int i) throws ParseException{
 		if(isTokenEnough(i)){
-			return tokenList.remove(i);
+			return tokenList.get(i);
 		}
 		
 		return Token.EOF;
 	}
 	
-	/**
-	 * @param i
-	 * @throws ParseException 
-	 */
 	private boolean isTokenEnough(int i) throws ParseException {
 		
 		while(i>=tokenList.size()){

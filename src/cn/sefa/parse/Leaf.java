@@ -43,12 +43,12 @@ public class Leaf extends Element {
 		
 	}
 	
-	protected void addLeaf(List<ASTree> res, Token t) {
+	public void addLeaf(List<ASTree> res, Token t) {
 		res.add(new ASTLeaf(t));
 	}
 
 	@Override
-	protected boolean match(Lexer lexer) throws ParseException {
+	public boolean match(Lexer lexer) throws ParseException {
 		Token t = lexer.peek(0);
 		if(t.isIdentifier()){
 			for(String token : tokens){

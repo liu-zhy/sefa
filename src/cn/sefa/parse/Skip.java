@@ -19,7 +19,7 @@ public class Skip extends Leaf{
 	}
 
 	@Override
-	protected void addLeaf(List<ASTree> res , Token t) {
+	public void addLeaf(List<ASTree> res , Token t) {
 	}
 
 
