@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.sefa.parse;
 
 import java.util.ArrayList;
@@ -68,8 +65,20 @@ public class Parser {
 		if(elements.size() == 0)
 			return true ;
 		else{
-			Element e = elements.get(0) ;
-			return e.match(lexer);
+			/*
+			 * 当第一个节点为option时，应该再往后分析，只要有一个option匹配直接返回true
+			 * 到第一个不为option的节点时，返回该结点的匹配结果，
+			 */
+			for(Element e : elements){
+				if(e.getClass() != Repeat.class)
+				{
+					return e.match(lexer);
+				}
+				if(e.match(lexer) == true)
+					return true ;
+				
+			}
+			return false;
 		}
 		
 	}

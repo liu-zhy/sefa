@@ -47,7 +47,8 @@ public class BasicParser {
 	
 	Parser statement = statement0.or(Parser.rule(IfStmt.class)
 			.sep("if").ast(expr).ast(block)
-			.option(Parser.rule().sep("else").ast(block)),
+			.option(Parser.rule().option(Parser.rule().sep(";",Token.EOL))
+					.sep("else").ast(block)),
 			Parser.rule(WhileStmt.class).sep("while").ast(expr).ast(block)	,
 			expr);
 	

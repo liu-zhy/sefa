@@ -30,8 +30,12 @@ public class IfStmt extends ASTList {
 	@Override
 	public String toString(){
 		
-		return "(if"+getCondition() + " " + getThenBlock()
-			+" else " + getElseBolck();	
+		StringBuilder sb = new StringBuilder();
+		sb.append("(if"+getCondition() + " " + getThenBlock());
+		if(getElseBolck() !=null){
+			sb.append(" else " + getElseBolck()) ;
+		}
+		return sb.toString();	
 	}
 	
 	

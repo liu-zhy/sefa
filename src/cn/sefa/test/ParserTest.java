@@ -25,7 +25,22 @@ public class ParserTest {
 
 	@Test
 	public void test1() throws FileNotFoundException, ParseException{
-		File file = new File("C:\\Users\\Lionel\\Desktop\\1.sf");
+		File file = new File("src/cn/sefa/test/1.sf");
+		Reader reader = new InputStreamReader(new FileInputStream(file));
+		Lexer lexer = new Lexer(reader);
+		BasicParser bp = new BasicParser();
+		
+		while(lexer.peek(0)!=Token.EOF){
+			ASTree t = bp.parse(lexer);
+			System.out.println(t);
+		}
+		
+	}
+	
+	@Test
+	public void test2() throws FileNotFoundException, ParseException{
+		//GP1.0/src/cn/sefa/test/1.sf
+		File file = new File("src/cn/sefa/test/2.sf");
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		Lexer lexer = new Lexer(reader);
 		BasicParser bp = new BasicParser();
@@ -37,8 +52,23 @@ public class ParserTest {
 		
 	}
 	@Test
-	public void test2() throws FileNotFoundException, ParseException{
-		File file = new File("C:\\Users\\Lionel\\Desktop\\2.sf");
+	public void test3() throws FileNotFoundException, ParseException{
+		//GP1.0/src/cn/sefa/test/1.sf
+		File file = new File("src/cn/sefa/test/3.sf");
+		Reader reader = new InputStreamReader(new FileInputStream(file));
+		Lexer lexer = new Lexer(reader);
+		BasicParser bp = new BasicParser();
+		
+		while(lexer.peek(0)!=Token.EOF){
+			ASTree t = bp.parse(lexer);
+			System.out.println(t);
+		}
+		
+	}
+	@Test
+	public void test4() throws FileNotFoundException, ParseException{
+		//GP1.0/src/cn/sefa/test/1.sf
+		File file = new File("src/cn/sefa/test/4.sf");
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		Lexer lexer = new Lexer(reader);
 		BasicParser bp = new BasicParser();

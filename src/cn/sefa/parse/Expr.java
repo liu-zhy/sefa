@@ -58,7 +58,7 @@ public class Expr extends Element {
 		Precedence next ;
 		while((next = nextOperator(lexer))!=null
 				&& rightIsExpr(value,next)){
-			right = doShift(lexer,right,value);
+			right = doShift(lexer,right,next.value);
 		}
 		list.add(right) ;
 		return factory.make(list);
