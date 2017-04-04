@@ -55,7 +55,7 @@ public class BasicParser {
 	
 //	Parser program = Parser.rule().option(statement).sep(";",Token.EOL);
 	Parser program = Parser.rule()
-			.or(statement,Parser.rule(NullStmt.class)).sep(";",Token.EOL) ;
+			.or(statement,Parser.rule(NullStmt.class)).repeat(Parser.rule().sep(";",Token.EOL));
 	
 	public BasicParser(){
 		//标识符中不包含这些字符
@@ -66,7 +66,9 @@ public class BasicParser {
 		operators.add("=",1,Operators.RIGHT);
 		operators.add("==",2,Operators.LEFT);
 		operators.add(">",2,Operators.LEFT);
+		operators.add(">=",2,Operators.LEFT);
 		operators.add("<",2,Operators.LEFT);
+		operators.add("<=",2,Operators.LEFT);
 		operators.add("+",3,Operators.LEFT);
 		operators.add("-",3,Operators.LEFT);
 		operators.add("*",4,Operators.LEFT);

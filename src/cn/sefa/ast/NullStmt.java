@@ -14,5 +14,11 @@ public class NullStmt extends ASTList {
 	public NullStmt(List<ASTree> list) {
 		super(list);
 	}
-
+	
+	//do nothing.
+	@Override
+	public Object eval(Environment env){
+		return null;
+	}
+	
 }

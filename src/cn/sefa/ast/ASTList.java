@@ -1,10 +1,9 @@
-/**
- * 
- */
 package cn.sefa.ast;
 
 import java.util.Iterator;
 import java.util.List;
+
+import cn.sefa.exception.SefaException;
 
 /**
  * @author Lionel  
@@ -56,6 +55,11 @@ public class ASTList extends ASTree {
 			
 		}
 		return sb.append(")").toString();
+	}
+
+	@Override
+	public Object eval(Environment env) {
+		throw new SefaException("can't directly evaluat : "+toString(),this);
 	}
 	
 }

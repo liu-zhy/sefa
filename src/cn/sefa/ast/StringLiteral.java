@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.sefa.ast;
 
 import cn.sefa.lexer.Token;
@@ -29,5 +26,9 @@ public class StringLiteral extends ASTLeaf {
 		return "\""+token.getText()+"\"";
 	}
 	
+	@Override
+	public Object eval(Environment env){
+		return value();
+	}
 
 }

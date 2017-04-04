@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.sefa.exception.SefaException;
 import cn.sefa.lexer.Token;
 
 /**
@@ -51,5 +52,15 @@ public class ASTLeaf extends ASTree {
 	public String toString(){
 		return token.getText() ;
 	}
+
+	/* (non-Javadoc)
+	 * @see cn.sefa.ast.ASTree#eval()
+	 */
+	@Override
+	public Object eval(Environment env) {
+		
+		throw new SefaException("can't directly evaluat : "+toString(),this);
+		
+	}	
 	
 }

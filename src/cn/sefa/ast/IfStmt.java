@@ -1,9 +1,8 @@
-/**
- * 
- */
 package cn.sefa.ast;
 
 import java.util.List;
+
+import cn.sefa.exception.SefaException;
 
 /**
  * @author Lionel
@@ -38,6 +37,24 @@ public class IfStmt extends ASTList {
 		return sb.toString();	
 	}
 	
-	
+	@Override
+	public Object eval(Environment env){
+		ASTree t = getCondition() ;
+		Object cond = t.eval(env);
+		Object res = 0 ;
+		if(cond instanceof Boolean){
+			if((boolean)cond){
+				res = getThenBlock().eval(env);
+			}
+			else{
+				res = getElseBolck().eval(env);
+			}
+		}
+		else{
+			throw new SefaException("condition is not the type of bool", this);
+		}
+		
+		return res ;
+	}
 	
 }

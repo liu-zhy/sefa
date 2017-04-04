@@ -95,9 +95,11 @@ public class Lexer {
 		 */
 		matcher.useTransparentBounds(true).useAnchoringBounds(false);
 		int pos = 0 , endPos = line.length();
+//		boolean isComment = true ;
 		while(pos<endPos){
 			matcher.region(pos, endPos);
 			if(matcher.lookingAt()){
+//				isComment = addToken(lineNo,matcher);
 				addToken(lineNo,matcher);
 				pos = matcher.end();
 			}
@@ -106,6 +108,8 @@ public class Lexer {
 			}
 		}
 		tokenList.add(new IdToken(Token.EOL,lineNo));
+		/*if(!isComment)
+			tokenList.add(new IdToken(Token.EOL,lineNo));*/
 	}
 	
 	protected void addToken(int lineNo, Matcher matcher) {
@@ -129,8 +133,12 @@ public class Lexer {
 				
 				tokenList.add(t);
 			}
+			/*//如果是注释的话，提醒调用者
+			else
+				return false;*/
 			
 		}
+//		return true;
 		
 	}
 	/*

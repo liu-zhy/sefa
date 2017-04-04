@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.sefa.ast;
 
 import java.util.Iterator;
@@ -18,6 +15,6 @@ public abstract class ASTree{
 	//返回一个便于遍历的迭代器 
 	public abstract Iterator<ASTree>children();
 	public abstract String location();
-	
+	public abstract Object eval(Environment env);
 
 }

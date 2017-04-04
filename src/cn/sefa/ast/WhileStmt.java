@@ -5,6 +5,8 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.exception.SefaException;
+
 /**
  * @author Lionel
  *
@@ -27,4 +29,24 @@ public class WhileStmt extends ASTList {
 	public String toString(){
 		return "(while " + getCondition() +" "	+ getBody() + ")"  ;         
 	}
+	
+	@Override
+	public Object eval(Environment env){
+		ASTree t = getCondition();
+		Object cond = t.eval(env);
+		Object res = 0 ;
+		if(cond instanceof Boolean){
+			ASTree block = getBody() ;
+			while((boolean)cond){
+				res = block.eval(env);
+				cond = t.eval(env);
+			}
+		}
+		else{
+			throw new SefaException("condition is not the type of bool", this);		
+		}
+		return res ;
+		
+	}
+	
 }
