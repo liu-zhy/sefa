@@ -17,7 +17,7 @@ public class NullStmt extends ASTList {
 	
 	//do nothing.
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		return null;
 	}
 	

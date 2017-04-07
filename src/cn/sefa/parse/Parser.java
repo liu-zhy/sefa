@@ -8,6 +8,7 @@ import cn.sefa.ast.ASTLeaf;
 import cn.sefa.ast.ASTList;
 import cn.sefa.ast.ASTree;
 import cn.sefa.ast.IdLeaf;
+import cn.sefa.ast.NumberLiteral;
 import cn.sefa.ast.StringLiteral;
 import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
@@ -92,6 +93,13 @@ public class Parser {
 		elements.add(new Tree(expr));
 		return this;
 	}
+	
+	public Parser maybe(Parser p){
+		Parser newParser = new Parser(p);
+		newParser.reset();
+		elements.add(new OrTree(new Parser[]{p,newParser}));
+		return this ;
+	}
 
 	public Parser or(Parser... p) {
 		elements.add(new OrTree(p));
@@ -109,17 +117,27 @@ public class Parser {
 	}
 	
 	public  Parser number(){
-		return number(null);
+		return number(NumberLiteral.class);
 	}
 	
+/*	
+	public  Parser number(){
+		return number(null);
+	}
+*/	
 	public Parser number(Class<? extends ASTLeaf> clazz) {
 		
 		elements.add(new NumToken(clazz));
 		return this;
 	}
 	
-	public Parser identifier(HashSet<String> r){
+/*	public Parser identifier(HashSet<String> r){
 		elements.add(new IdToken(null,r)) ;
+		return this ;
+	}
+*/
+	public Parser identifier(HashSet<String> r){
+		elements.add(new IdToken(IdLeaf.class ,r)) ;
 		return this ;
 	}
 	
@@ -134,9 +152,13 @@ public class Parser {
 	}
 	
 	public Parser string (){
-		return string(null);
+		return string(StringLiteral.class);
 	}
 	
+/*	public Parser string (){
+		return string(null);
+	}
+*/	
 	public Parser expression(Parser subexp , Operators operators){
 		return expression(null,subexp , operators);
 	}

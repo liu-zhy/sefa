@@ -98,7 +98,19 @@ public class ParserTest {
 	@Test
 	public void test6() throws FileNotFoundException, ParseException{
 		
-		Lexer lexer = getLexer();
+		Lexer lexer = getLexer("fib.sf");
+		BasicParser bp = new BasicParser();
+		
+		while(lexer.peek(0)!=Token.EOF){
+			ASTree t = bp.parse(lexer);
+			System.out.println(t);
+		}
+		
+	}
+	@Test
+	public void test7() throws FileNotFoundException, ParseException{
+		
+		Lexer lexer = getLexer("fib.sf");
 		BasicParser bp = new BasicParser();
 		
 		while(lexer.peek(0)!=Token.EOF){
@@ -112,9 +124,9 @@ public class ParserTest {
 	 * @return
 	 * @throws FileNotFoundException 
 	 */
-	private Lexer getLexer() throws FileNotFoundException {
+	private Lexer getLexer(String name) throws FileNotFoundException {
 		//GP1.0/src/cn/sefa/test/1.sf
-		File file = new File("src/cn/sefa/test/factorial.sf");
+		File file = new File("src/cn/sefa/test/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}

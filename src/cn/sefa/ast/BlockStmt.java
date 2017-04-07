@@ -14,7 +14,7 @@ public class BlockStmt extends ASTList {
 		super(list);
 	}
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		Object res = 0 ;
 		for(ASTree t : children){
 			if(!(t instanceof NullStmt))

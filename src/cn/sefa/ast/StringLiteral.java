@@ -27,7 +27,7 @@ public class StringLiteral extends ASTLeaf {
 	}
 	
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		return value();
 	}
 

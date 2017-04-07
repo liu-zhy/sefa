@@ -27,7 +27,7 @@ public class BinaryExpr extends ASTList {
 	}
 	
 	@Override 
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		
 		if("=".equals(getOperator())){
 			return computeAssign(env);
@@ -37,7 +37,7 @@ public class BinaryExpr extends ASTList {
 		}
 	}
 	
-	private Object computeAssign(Environment env) {
+	private Object computeAssign(IEnvironment env) {
 		ASTree left = getLeft();
 		if(left instanceof IdLeaf){
 			ASTree right = getRight();
@@ -52,7 +52,7 @@ public class BinaryExpr extends ASTList {
 		
 	}
 	
-	private Object computeOp(Environment env) {
+	private Object computeOp(IEnvironment env) {
 		Object left = getLeft().eval(env);
 		Object right = getRight().eval(env);
 		String op = getOperator();

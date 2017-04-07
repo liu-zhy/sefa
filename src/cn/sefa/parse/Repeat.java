@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.sefa.parse;
 
 import java.util.List;

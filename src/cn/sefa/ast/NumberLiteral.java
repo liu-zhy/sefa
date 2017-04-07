@@ -20,7 +20,7 @@ public class NumberLiteral extends ASTLeaf {
 		return ((NumToken)token).getNumber();
 	}
 	
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		return value();
 	}
 }

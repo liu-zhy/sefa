@@ -31,7 +31,7 @@ public class WhileStmt extends ASTList {
 	}
 	
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		ASTree t = getCondition();
 		Object cond = t.eval(env);
 		Object res = 0 ;

@@ -30,7 +30,7 @@ public class ASTList extends ASTree {
 	}
 
 	@Override
-	public Iterator<ASTree> children() {
+	public Iterator<ASTree> getChildren() {
 
 		return children.iterator();
 	}
@@ -58,8 +58,8 @@ public class ASTList extends ASTree {
 	}
 
 	@Override
-	public Object eval(Environment env) {
-		throw new SefaException("can't directly evaluat : "+toString(),this);
+	public Object eval(IEnvironment env) {
+		throw new SefaException("can't directly evaluate : "+toString(),this);
 	}
 	
 }

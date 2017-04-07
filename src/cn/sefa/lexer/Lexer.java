@@ -95,24 +95,29 @@ public class Lexer {
 		 */
 		matcher.useTransparentBounds(true).useAnchoringBounds(false);
 		int pos = 0 , endPos = line.length();
-//		boolean isComment = true ;
+		boolean notComment = false ;
 		while(pos<endPos){
 			matcher.region(pos, endPos);
 			if(matcher.lookingAt()){
-//				isComment = addToken(lineNo,matcher);
-				addToken(lineNo,matcher);
+				if(addToken(lineNo,matcher)){
+					notComment = true;
+				}
+				
+//				addToken(lineNo,matcher);
 				pos = matcher.end();
+				
 			}
 			else{
 				throw new ParseException("bad token at line "+lineNo);
 			}
 		}
-		tokenList.add(new IdToken(Token.EOL,lineNo));
-		/*if(!isComment)
-			tokenList.add(new IdToken(Token.EOL,lineNo));*/
+//		tokenList.add(new IdToken(Token.EOL,lineNo));
+		//如果一行只有注释的话话不添加Token.EOL。
+		if(notComment)
+			tokenList.add(new IdToken(Token.EOL,lineNo));
 	}
 	
-	protected void addToken(int lineNo, Matcher matcher) {
+	protected boolean addToken(int lineNo, Matcher matcher) {
 		
 		if(matcher.group(1)!=null){	//如果匹配的不是空白字符,匹配的是第二个大括号
 			if(matcher.group(2) == null){	//如果匹配的是注释不做处理，不是注释的话进入下面的语句
@@ -133,12 +138,12 @@ public class Lexer {
 				
 				tokenList.add(t);
 			}
-			/*//如果是注释的话，提醒调用者
+			//如果是注释的话，提醒调用者
 			else
-				return false;*/
+				return false;
 			
 		}
-//		return true;
+		return true;
 		
 	}
 	/*

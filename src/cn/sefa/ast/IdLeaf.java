@@ -12,9 +12,6 @@ import cn.sefa.lexer.Token;
  */
 public class IdLeaf extends ASTLeaf {
 
-	/**
-	 * @param t
-	 */
 	public IdLeaf(Token t) {
 		super(t);
 		// TODO Auto-generated constructor stub
@@ -23,8 +20,9 @@ public class IdLeaf extends ASTLeaf {
 	public String getId(){
 		return token.getText();
 	}
+	
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		Object obj = env.get(getId());
 		if(obj == null){
 			throw new SefaException("undefined identifier : "+getId()+". ",this);

@@ -24,7 +24,7 @@ public class NegativeExpr extends ASTList {
 	}
 	
 	@Override
-	public Object eval(Environment env){
+	public Object eval(IEnvironment env){
 		Object obj = (Integer)(operand().eval(env));
 		if(obj instanceof Integer){
 			return new Integer(-1*((Integer)obj).intValue());

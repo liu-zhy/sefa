@@ -1,16 +1,26 @@
 q:what is meaning of sefa?
 	a:sefa is abbreviation of Script dErived From jAva
 
-the rule of generator:
-note : [] is repeating 0 or 1,{} is repeating more than 0;
+the rule of productions:
+note : [] is repeating 0 or 1,{} is repeating more than 0 or equals 0;
 
-	primary		:	"("expr")¡° | NUMBER	| IDENTIFIER	|STRING
+	primary		:	( "("expr")" | NUMBER	| IDENTIFIER | STRING ){postfix}              
 	factor		:	"-"primary	| primary
 	expr		£º	factor	{OP factor}
 	block		:	"{" [statement] {(";"|EOL) [statement]} "}"
 	statement	:	"if" expr block ["else" block]
 					| "while" expr block
 					|	expr
-	program		:	[statement]	(","|EOL) ;
+	param		: IDENTIFIER
+	params		: param {"," param}
+	param_list	: "(" [params] ")"
+	function	: "def" IDENTIFIER param_list block
+	args		: expr {"," expr}
+	postfix		: "(" [args] ")"
+	simple		:	expr [args]
+	program		:	[function | statement]	(","|EOL) ;
 	
 	
+when I designed this interpreter ,
+I made some compromises for simplifing the process of coding.
+For example , the production of primary  that may be incorrect will product a wrong sentence.
