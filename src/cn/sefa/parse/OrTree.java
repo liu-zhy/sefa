@@ -36,11 +36,6 @@ public class OrTree extends Element{
 		
 	}
 	
-	/**
-	 * @param lexer
-	 * @return
-	 * @throws ParseException 
-	 */
 	protected Parser choose(Lexer lexer) throws ParseException {
 		for(Parser p : parsers){
 			if(p.match(lexer)){
@@ -49,9 +44,7 @@ public class OrTree extends Element{
 		}
 		return null;
 	}
-	/* (non-Javadoc)
-	 * @see cn.sefa.parse.Element#match(cn.sefa.Lexer)
-	 */
+	
 	@Override
 	public boolean match(Lexer lexer) throws ParseException {
 		
