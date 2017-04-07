@@ -35,8 +35,8 @@ public class FuncStmt extends ASTList {
 	public Object eval(IEnvironment env){
 		
 		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
-		System.out.println(env.get("fib"));
-		return getFuncName();
+//		System.out.println(env.get("fib"));
+		return "Funtion: "+getFuncName();
 	}
 	
 }

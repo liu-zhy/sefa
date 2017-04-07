@@ -20,20 +20,15 @@ import cn.sefa.parse.BasicParser;
  * @author Lionel
  *
  */
-public class FunctionTest {
-
+public class ClosureTest {
+	
 	@Test
 	public void test1() throws ParseException, FileNotFoundException{
-		Lexer lexer = getLexer("fib.sf");
+		Lexer lexer = getLexer("closure1.sf");
 		runTest(lexer);
 	}
 	
-	@Test
-	public void test2() throws FileNotFoundException, ParseException{
-		Lexer lexer = getLexer("strcat.sf");
-		runTest(lexer);
-	}
-
+	
 	private void runTest(Lexer lexer) throws ParseException {
 		BasicParser bp = new BasicParser();
 		IEnvironment env = new NestedEnv();
@@ -52,5 +47,4 @@ public class FunctionTest {
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}
-	
 }

@@ -6,6 +6,7 @@ import cn.sefa.ast.ASTree;
 import cn.sefa.ast.Arguments;
 import cn.sefa.ast.BinaryExpr;
 import cn.sefa.ast.BlockStmt;
+import cn.sefa.ast.Closure;
 import cn.sefa.ast.FuncStmt;
 import cn.sefa.ast.IfStmt;
 import cn.sefa.ast.NegativeExpr;
@@ -29,17 +30,6 @@ public class BasicParser {
 	Parser expr0 = Parser.rule() ;
 	Parser args = Parser.rule(Arguments.class).ast(expr0).repeat(Parser.rule().sep(",").ast(expr0));
 	Parser postfix = Parser.rule().sep("(").maybe(args).sep(")") ;
-	Parser primary = Parser.rule(PrimaryExpr.class)
-			.or(Parser.rule().sep("(").ast(expr0).sep(")") ,
-				Parser.rule().number(),
-				Parser.rule().identifier(reserved),
-				Parser.rule().string())
-			.repeat(postfix);
-	
-	Parser factor = Parser.rule().or(Parser.rule(NegativeExpr.class).sep("-").ast(primary)
-			,primary) ;
-	
-	Parser expr = expr0.expression(BinaryExpr.class,factor,operators);
 	
 	Parser param = Parser.rule().identifier(reserved);
 	
@@ -53,6 +43,25 @@ public class BasicParser {
 			.sep("{").option(statement0)
 			.repeat(Parser.rule().sep(";",Token.EOL).option(statement0))
 			.sep("}");
+	
+	Parser primary = Parser.rule(PrimaryExpr.class)
+			.or(Parser.rule().sep("(").ast(expr0).sep(")") ,
+					 Parser.rule().number(),
+					 /*
+					  * 人为的制造优先级，当closure放到identifier后面时出现二义性，会出现解释错误，因为closure也可以当做标识符
+					  * 也可以在reserved里添加closure当做关键字来解决
+					  * 
+					  * */
+					 Parser.rule(Closure.class).sep("closure").ast(ParamList).ast(block),
+					 Parser.rule().identifier(reserved),
+					 Parser.rule().string())
+					.repeat(postfix);
+			
+	
+	Parser factor = Parser.rule().or(Parser.rule(NegativeExpr.class).sep("-").ast(primary)
+			,primary) ;
+	
+	Parser expr = expr0.expression(BinaryExpr.class,factor,operators);
 	
 	Parser function = Parser.rule(FuncStmt.class).sep("def")
 			.identifier(reserved).ast(ParamList).ast(block);
@@ -74,6 +83,7 @@ public class BasicParser {
 		reserved.add(";");
 		reserved.add("}");
 		reserved.add(")");
+		reserved.add("closure");
 		reserved.add(Token.EOL);
 
 		operators.add("=",1,Operators.RIGHT);
