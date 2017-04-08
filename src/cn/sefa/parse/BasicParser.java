@@ -83,20 +83,24 @@ public class BasicParser {
 		reserved.add(";");
 		reserved.add("}");
 		reserved.add(")");
+		reserved.add("true");
+		reserved.add("false");
 		reserved.add("closure");
 		reserved.add(Token.EOL);
-
+		
 		operators.add("=",1,Operators.RIGHT);
-		operators.add("==",2,Operators.LEFT);
-		operators.add(">",2,Operators.LEFT);
-		operators.add(">=",2,Operators.LEFT);
-		operators.add("<",2,Operators.LEFT);
-		operators.add("<=",2,Operators.LEFT);
-		operators.add("+",3,Operators.LEFT);
-		operators.add("-",3,Operators.LEFT);
-		operators.add("*",4,Operators.LEFT);
-		operators.add("/",4,Operators.LEFT);
-		operators.add("%",4,Operators.LEFT);
+		operators.add("||",1,Operators.LEFT);
+		operators.add("&&",2,Operators.LEFT);
+		operators.add("==",3,Operators.LEFT);
+		operators.add(">",3,Operators.LEFT);
+		operators.add(">=",3,Operators.LEFT);
+		operators.add("<",3,Operators.LEFT);
+		operators.add("<=",3,Operators.LEFT);
+		operators.add("+",4,Operators.LEFT);
+		operators.add("-",4,Operators.LEFT);
+		operators.add("*",5,Operators.LEFT);
+		operators.add("/",5,Operators.LEFT);
+		operators.add("%",5,Operators.LEFT);
 		
 		
 	}

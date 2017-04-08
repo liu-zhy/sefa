@@ -20,11 +20,6 @@ public class Expr extends Element {
 	private Operators opers;
 	private Parser factor;
 	
-	/**
-	 * @param clazz
-	 * @param factor2
-	 * @param operators
-	 */
 	public Expr(Class<? extends ASTList> clazz, Parser factor, Operators operators) {
 		
 		this.factory = Factory.getForASTList(clazz);

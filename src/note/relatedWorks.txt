@@ -18,7 +18,6 @@ note : [] is repeating 0 or 1,{} is repeating more than 0 or equals 0;
 	function	: "def" IDENTIFIER param_list block
 	args		: expr {"," expr}
 	postfix		: "(" [args] ")"
-	simple		:	expr [args]
 	program		:	[function | statement]	(","|EOL) ;
 	
 	

@@ -61,7 +61,8 @@ public class BinaryExpr extends ASTList {
 		}
 		//处理字符串运算
 		else if(left instanceof String || right instanceof String){
-			if(op.equals("="))
+			return computerStr(left , op ,right);
+			/*if(op.equals("="))
 				return String.valueOf(left)+String.valueOf(right);
 			else if(op.equals("=="))
 			{
@@ -76,10 +77,30 @@ public class BinaryExpr extends ASTList {
 				StringBuilder sb = new StringBuilder();
 				sb.append(left).append(right);
 				return sb.toString();
-			}
+			}*/
 		}
 		else{
 			throw new SefaException("left expr and right expr are not same type.",this);
+		}
+
+	}
+
+	private Object computerStr(Object left, String op, Object right) {
+		if(op.equals("="))
+			return String.valueOf(left)+String.valueOf(right);
+		else if(op.equals("=="))
+		{
+			if(left != null && right != null){
+				return left.equals(right) ;
+			}
+			else
+				return left == right ? true : false ;
+		}
+		//字符串连接操作。
+		else if(op.equals("+")){
+			StringBuilder sb = new StringBuilder();
+			sb.append(left).append(right);
+			return sb.toString();
 		}
 		return null;
 	}
