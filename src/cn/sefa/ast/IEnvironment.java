@@ -1,5 +1,7 @@
 package cn.sefa.ast;
 
+import java.util.HashMap;
+
 /**
  * @author Lionel
  *
@@ -12,5 +14,6 @@ public interface IEnvironment {
 	IEnvironment where(String name) ;
 	void setOuter(IEnvironment env);
 	IEnvironment getOuter();
+	HashMap<String , Object> getTable();
 	
 }

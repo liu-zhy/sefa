@@ -39,12 +39,21 @@ public class BinaryExpr extends ASTList {
 	
 	private Object computeAssign(IEnvironment env) {
 		ASTree left = getLeft();
+		ASTree right = getRight();
+		Object rval = right.eval(env);
+		if(left instanceof PrimaryExpr){
+			PrimaryExpr p = (PrimaryExpr) left ;
+			if(p.hasPostfix(0) 
+					&& p.postfix(0) instanceof Dot){
+				Object t = ((PrimaryExpr)left).evalSubExpr(env , 1);
+				if(t instanceof StoneObject){
+					return setField((StoneObject)t , (Dot)p.postfix(0),rval);
+				}
+			}
+		}
 		if(left instanceof IdLeaf){
-			ASTree right = getRight();
-			Object obj = right.eval(env);
-			
-			env.put(((IdLeaf)left).getId(), obj);
-			return obj;
+			env.put(((IdLeaf)left).getId(), rval);
+			return rval;
 		}
 		else{
 			throw new SefaException("lvalue is not a Identifer",this);
@@ -52,6 +61,12 @@ public class BinaryExpr extends ASTList {
 		
 	}
 	
+	private Object setField(StoneObject so, Dot postfix, Object rval) {
+		String name = postfix.getName();
+		so.write(name,rval) ;
+		return rval ;
+	}
+
 	private Object computeOp(IEnvironment env) {
 		Object left = getLeft().eval(env);
 		Object right = getRight().eval(env);

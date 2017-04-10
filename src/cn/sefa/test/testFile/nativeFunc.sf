@@ -1,0 +1,15 @@
+//test.
+def fib(n){
+    if n< 2{
+        n;
+    }
+    else{
+        fib(n-1)+fib(n-2)  
+    }
+}
+t = currentTime();
+n = read();
+//fib(toInt(n))
+print(fib(toInt(n)))
+
+print("using "+(currentTime()-t) + " msec")

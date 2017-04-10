@@ -12,8 +12,8 @@ import cn.sefa.exception.SefaException;
 public class ASTList extends ASTree {
 	
 	protected List<ASTree> children;
-	public ASTList(List<ASTree> list){
-		children = list ;
+	public ASTList(List<ASTree> children){
+		this.children = children ;
 	}
 	
 	@Override

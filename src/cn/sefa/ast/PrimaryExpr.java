@@ -19,7 +19,7 @@ public class PrimaryExpr extends ASTList {
 	public ASTree operand(){
 		return child(0);
 	}
-	
+	//嵌套数从0开始
 	public boolean hasPostfix(int nest){
 		return numOfChildren()-nest>1;
 	}
@@ -32,7 +32,7 @@ public class PrimaryExpr extends ASTList {
 		return evalSubExpr(env,0);
 	}
 
-	private Object evalSubExpr(IEnvironment env, int nest) {
+	public Object evalSubExpr(IEnvironment env, int nest) {
 		if(hasPostfix(nest)){
 			Object target = evalSubExpr(env ,nest+1) ;
 			return postfix(nest).eval(env,target) ;

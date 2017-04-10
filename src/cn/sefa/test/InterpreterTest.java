@@ -37,7 +37,7 @@ public class InterpreterTest {
 		
 	}
 	private Lexer getLexer() throws FileNotFoundException {
-		File file = new File("src/cn/sefa/test/factorial.sf");
+		File file = new File("src/cn/sefa/test/testFile/factorial.sf");
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}

@@ -33,6 +33,12 @@ public class FunctionTest {
 		Lexer lexer = getLexer("strcat.sf");
 		runTest(lexer);
 	}
+	
+	@Test
+	public void test3() throws FileNotFoundException, ParseException{
+		Lexer lexer = getLexer("function.sf");
+		runTest(lexer);
+	}
 
 	private void runTest(Lexer lexer) throws ParseException {
 		BasicParser bp = new BasicParser();
@@ -48,7 +54,7 @@ public class FunctionTest {
 	
 	
 	private Lexer getLexer(String name) throws FileNotFoundException {
-		File file = new File("src/cn/sefa/test/"+name);
+		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}

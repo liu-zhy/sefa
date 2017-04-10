@@ -8,22 +8,25 @@ import java.util.HashMap;
  */
 public class NestedEnv implements IEnvironment {
 
-	private HashMap<String,Object> values ;
+	private HashMap<String,Object> table ;
 	private IEnvironment outer; 
 	
 	public NestedEnv(IEnvironment outer) {
 		super();
-		this.values = new HashMap<String, Object>();
+		this.table = new HashMap<String, Object>();
 		this.outer = outer;
 	}
 	
 	public NestedEnv() {
 		super();
-		this.values = new HashMap<String, Object>();
+		this.table = new HashMap<String, Object>();
 		this.outer = null;
 	}
 	
-
+	public HashMap<String , Object> getTable(){
+		return table ;
+	}
+	
 	@Override
 	public void setOuter(IEnvironment env) {
 		this.outer = (NestedEnv) env;
@@ -35,7 +38,7 @@ public class NestedEnv implements IEnvironment {
 		return outer;
 	}
 	public HashMap<String,Object> getValues(){
-		return values;
+		return table;
 	}
 	
 	@Override
@@ -51,13 +54,13 @@ public class NestedEnv implements IEnvironment {
 
 	//不管外部环境存不存在这个变量，只将这个变量加入当前环境(put key in current environment)
 	public void putInCrtEnv(String name, Object v){
-		values.put(name, v);
+		table.put(name, v);
 	}
 	
 	@Override
 	public Object get(String name) {
 
-		Object res = values.get(name);
+		Object res = table.get(name);
 		if(res == null && outer != null)
 			return outer.get(name);
 		
@@ -66,7 +69,7 @@ public class NestedEnv implements IEnvironment {
 	
 	public IEnvironment where(String name){
 		
-		if(values.get(name) != null){
+		if(table.get(name) != null){
 			return this;
 		}
 		if(outer != null){

@@ -1,24 +1,28 @@
 q:what is meaning of sefa?
-	a:sefa is abbreviation of Script dErived From jAva
+	a:sefa is abbreviation of [Script dErived From jAva]
 
 the rule of productions:
-note : [] is repeating 0 or 1,{} is repeating more than 0 or equals 0;
+note : [] is repeated zero or once  ,{} is repeated more than zero or equals zero;
 
 	primary		:	( "("expr")" | NUMBER	| IDENTIFIER | STRING | closure){postfix}    
-	closure		:	"closure" param_list block      
 	factor		:	"-"primary	| primary
-	expr		£º	factor	{OP factor}
+	expr		:	factor	{OP factor}
 	block		:	"{" [statement] {(";"|EOL) [statement]} "}"
 	statement	:	"if" expr block ["else" block]
 					| "while" expr block
 					|	expr
+	args		: expr {"," expr}
 	param		: IDENTIFIER
 	params		: param {"," param}
 	param_list	: "(" [params] ")"
+	postfix		: "." IDENTIFIER | "(" [args] ")"
+	member		: def | expr
+	closure		:	"closure" param_list block      
+	class_body	: "{" [member] {(";" | EOL) [member] } "}"
 	function	: "def" IDENTIFIER param_list block
-	args		: expr {"," expr}
-	postfix		: "(" [args] ")"
-	program		:	[function | statement]	(","|EOL) ;
+	defclass	: "class" IDENTIFIER ["extends" IDENTIFER] class_body
+	program		:	[defclass | function | statement]	(";"|EOL) ;
+	
 	
 	
 when I designed this interpreter ,
@@ -26,4 +30,6 @@ I made some compromises for simplifing the process of coding.
 For example , the production of primary  that may be incorrect will product a wrong sentence.
 
 with the further development of this project , the productions is somewhat unreasonable.
-I hate this style of production , but I have no ideas.
+I hate this style of production , but I have no ideas under that condition.
+
+NOTE:Don't forget to add the limitation of block of function.!!!

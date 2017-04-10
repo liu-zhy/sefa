@@ -43,7 +43,7 @@ public class ClosureTest {
 	
 	
 	private Lexer getLexer(String name) throws FileNotFoundException {
-		File file = new File("src/cn/sefa/test/"+name);
+		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}

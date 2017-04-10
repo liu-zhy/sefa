@@ -56,14 +56,14 @@ public class Debug {
 				System.out.println("null...");
 			}
 			ASTree t =bp.parse(lexer);
-			//System.out.println("->>"+t.eval(env));
-			t.eval(env);
+			System.out.println("->>"+t.eval(env));
+			//t.eval(env);
 		}
 	}
 	
 	
 	public static Lexer getLexer(String name) throws FileNotFoundException {
-		File file = new File("src/cn/sefa/test/"+name);
+		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));
 		return new Lexer(reader);
 	}

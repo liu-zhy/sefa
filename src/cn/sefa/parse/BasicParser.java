@@ -6,7 +6,10 @@ import cn.sefa.ast.ASTree;
 import cn.sefa.ast.Arguments;
 import cn.sefa.ast.BinaryExpr;
 import cn.sefa.ast.BlockStmt;
+import cn.sefa.ast.ClassBody;
+import cn.sefa.ast.ClassStmt;
 import cn.sefa.ast.Closure;
+import cn.sefa.ast.Dot;
 import cn.sefa.ast.FuncStmt;
 import cn.sefa.ast.IfStmt;
 import cn.sefa.ast.NegativeExpr;
@@ -29,7 +32,8 @@ public class BasicParser {
 	Operators operators = Operators.getInstance();
 	Parser expr0 = Parser.rule() ;
 	Parser args = Parser.rule(Arguments.class).ast(expr0).repeat(Parser.rule().sep(",").ast(expr0));
-	Parser postfix = Parser.rule().sep("(").maybe(args).sep(")") ;
+	Parser postfix = Parser.rule().or(Parser.rule(Dot.class).sep(".").identifier(reserved),
+			Parser.rule().sep("(").maybe(args).sep(")")) ;
 	
 	Parser param = Parser.rule().identifier(reserved);
 	
@@ -73,10 +77,19 @@ public class BasicParser {
 			Parser.rule(WhileStmt.class).sep("while").ast(expr).ast(block)	,
 			expr);
 	
+	Parser member = Parser.rule().or(function,expr).repeat(Parser.rule().sep(";",Token.EOL)) ;
 	
+	Parser classBody = Parser.rule(ClassBody.class).sep("{")
+			.option(member).repeat(Parser.rule().repeat(Parser.rule().sep(";",Token.EOL)).ast(member))
+			.sep("}");
+	
+	Parser classStmt = Parser.rule(ClassStmt.class).sep("class")
+			.identifier(reserved).option(Parser.rule().sep("extends").identifier(reserved))
+			.ast(classBody);
+
 //	Parser program = Parser.rule().option(statement).sep(";",Token.EOL);
 	Parser program = Parser.rule()
-			.or(function,statement,Parser.rule(NullStmt.class)).repeat(Parser.rule().sep(";",Token.EOL));
+			.or(classStmt,function,statement,Parser.rule(NullStmt.class)).repeat(Parser.rule().sep(";",Token.EOL));
 	
 	public BasicParser(){
 		//标识符中不包含这些字符

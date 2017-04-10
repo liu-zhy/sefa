@@ -9,6 +9,7 @@ import cn.sefa.lexer.Token;
  * Environment已无用，已升级成NestedEvn
  * 懒得删除此类。
  */
+@Deprecated
 public class Environment implements IEnvironment {
 
 	private HashMap<String , Object> env ;
@@ -47,6 +48,15 @@ public class Environment implements IEnvironment {
 	 */
 	@Override
 	public IEnvironment getOuter() {
+		
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.sefa.ast.IEnvironment#getTable()
+	 */
+	@Override
+	public HashMap<String, Object> getTable() {
 		
 		return null;
 	}

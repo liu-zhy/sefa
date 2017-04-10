@@ -1,0 +1,6 @@
+def func(x,y){
+    x*y*z
+}
+
+z = 0;
+func(2,3)

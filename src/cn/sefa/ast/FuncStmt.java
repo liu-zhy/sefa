@@ -36,7 +36,7 @@ public class FuncStmt extends ASTList {
 		
 		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
 //		System.out.println(env.get("fib"));
-		return "Funtion: "+getFuncName();
+		return getFuncName();
 	}
 	
 }

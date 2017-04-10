@@ -1,0 +1,17 @@
+class Position{
+    x = 0
+    y =0
+    z = 0 
+    def move(nx , ny){
+        this.x = nx
+        y = ny
+        closure(){
+            z = this.x*this.y
+        }
+    }
+}
+
+p = Position.new
+p.move(2,3)()
+print(p.x+p.y)
+print(p.z+"...")
