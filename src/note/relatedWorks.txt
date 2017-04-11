@@ -4,18 +4,19 @@ q:what is meaning of sefa?
 the rule of productions:
 note : [] is repeated zero or once  ,{} is repeated more than zero or equals zero;
 
-	primary		:	( "("expr")" | NUMBER	| IDENTIFIER | STRING | closure){postfix}    
+	primary		:	( "[" [elements] "]" | "("expr")" | NUMBER	| IDENTIFIER | STRING | closure){postfix}    
 	factor		:	"-"primary	| primary
 	expr		:	factor	{OP factor}
 	block		:	"{" [statement] {(";"|EOL) [statement]} "}"
 	statement	:	"if" expr block ["else" block]
 					| "while" expr block
-					|	expr
+ 					|	expr
+	elements	: expr {"," expr}
 	args		: expr {"," expr}
 	param		: IDENTIFIER
 	params		: param {"," param}
 	param_list	: "(" [params] ")"
-	postfix		: "." IDENTIFIER | "(" [args] ")"
+	postfix		: "." IDENTIFIER | "(" [args] ")" | "[" [elements] "]"
 	member		: def | expr
 	closure		:	"closure" param_list block      
 	class_body	: "{" [member] {(";" | EOL) [member] } "}"

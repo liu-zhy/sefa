@@ -4,6 +4,8 @@ import java.util.HashSet;
 
 import cn.sefa.ast.ASTree;
 import cn.sefa.ast.Arguments;
+import cn.sefa.ast.ArrayLiteral;
+import cn.sefa.ast.ArrayRef;
 import cn.sefa.ast.BinaryExpr;
 import cn.sefa.ast.BlockStmt;
 import cn.sefa.ast.ClassBody;
@@ -32,8 +34,11 @@ public class BasicParser {
 	Operators operators = Operators.getInstance();
 	Parser expr0 = Parser.rule() ;
 	Parser args = Parser.rule(Arguments.class).ast(expr0).repeat(Parser.rule().sep(",").ast(expr0));
+	Parser elements = Parser.rule(ArrayLiteral.class).ast(expr0)
+			.repeat(Parser.rule().sep(",").ast(expr0)) ;
 	Parser postfix = Parser.rule().or(Parser.rule(Dot.class).sep(".").identifier(reserved),
-			Parser.rule().sep("(").maybe(args).sep(")")) ;
+			Parser.rule().sep("(").maybe(args).sep(")"),
+			Parser.rule(ArrayRef.class).sep("[").maybe(expr0).sep("]")) ;
 	
 	Parser param = Parser.rule().identifier(reserved);
 	
@@ -57,6 +62,7 @@ public class BasicParser {
 					  * 
 					  * */
 					 Parser.rule(Closure.class).sep("closure").ast(ParamList).ast(block),
+					 Parser.rule().sep("[").maybe(elements).sep("]"),
 					 Parser.rule().identifier(reserved),
 					 Parser.rule().string())
 					.repeat(postfix);
@@ -96,6 +102,7 @@ public class BasicParser {
 		reserved.add(";");
 		reserved.add("}");
 		reserved.add(")");
+		reserved.add("]");
 		reserved.add("true");
 		reserved.add("false");
 		reserved.add("closure");

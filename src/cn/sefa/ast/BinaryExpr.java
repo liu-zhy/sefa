@@ -1,5 +1,6 @@
 package cn.sefa.ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
@@ -44,20 +45,48 @@ public class BinaryExpr extends ASTList {
 		if(left instanceof PrimaryExpr){
 			PrimaryExpr p = (PrimaryExpr) left ;
 			if(p.hasPostfix(0) 
-					&& p.postfix(0) instanceof Dot){
+					&& (p.postfix(0) instanceof Dot
+							|| p.postfix(0) instanceof ArrayRef)){
 				Object t = ((PrimaryExpr)left).evalSubExpr(env , 1);
 				if(t instanceof StoneObject){
 					return setField((StoneObject)t , (Dot)p.postfix(0),rval);
 				}
+				else if(t instanceof ArrayList<?>){
+					ArrayList<Object> list = (ArrayList<Object>) t ;
+					list.set((int) ((ArrayRef) p.postfix(0)).getIndex().eval(env), rval) ;
+					
+					return rval;
+					/*Object[] array = (Object[]) t;
+					String name = ((IdLeaf)((PrimaryExpr)left).operand()).getId() ;
+					Object res = ((ArrayRef) p.postfix(0)).getIndex().eval(env) ;
+					if(res instanceof Integer){
+						//如果访问越界，则重新分配数组，并复制原数组的内容
+						if((int)res>=array.length){
+							array = new Object[(int)res+20] ;
+							int i = 0 ;
+							for(Object obj : (Object[])t){
+								array[i++] = obj ;
+							}
+						}
+						array[(int) res] = rval;
+						if(t == (IdLeaf)((PrimaryExpr)left).operand()){
+							env.where(name).putInCrtEnv(name, array);
+						}
+						else{
+							
+						}
+						return rval;
+					}*/
+				}
 			}
+
 		}
-		if(left instanceof IdLeaf){
+		else if(left instanceof IdLeaf){
 			env.put(((IdLeaf)left).getId(), rval);
 			return rval;
 		}
-		else{
-			throw new SefaException("lvalue is not a Identifer",this);
-		}
+
+		throw new SefaException("lvalue is not a Identifer",this);	
 		
 	}
 	
