@@ -15,9 +15,7 @@ public class ArrayLiteral extends ASTList {
 
 	public ArrayList<Object> eval(IEnvironment env){
 		
-		int s = numOfChildren();
 		ArrayList<Object> res = new ArrayList<Object>() ;
-		int i = 0 ;
 		for(ASTree t : children){
 			res.add(t.eval(env)) ;
 		}

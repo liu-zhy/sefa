@@ -29,7 +29,7 @@ public class ArrayRef extends Postfix {
 				ArrayList<?> list = (ArrayList<?> )target ;
 				if((int)index>=0 && (int)index<list.size())
 					return list.get((int) index);
-				else return null;
+				return null;
 			}
 		}
 		throw new SefaException("not a array type",this) ;

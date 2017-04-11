@@ -53,8 +53,12 @@ public class BinaryExpr extends ASTList {
 				}
 				else if(t instanceof ArrayList<?>){
 					ArrayList<Object> list = (ArrayList<Object>) t ;
-					list.set((int) ((ArrayRef) p.postfix(0)).getIndex().eval(env), rval) ;
-					
+					int index = (int) ((ArrayRef) p.postfix(0)).getIndex().eval(env);
+					if(index<0)
+						throw new IndexOutOfBoundsException("index cannot equal 0. ");
+					for(int i = list.size();index>=list.size(); ++i)
+						list.add(0);
+					list.set(index , rval);
 					return rval;
 					/*Object[] array = (Object[]) t;
 					String name = ((IdLeaf)((PrimaryExpr)left).operand()).getId() ;

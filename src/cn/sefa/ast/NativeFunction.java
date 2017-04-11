@@ -27,7 +27,7 @@ public class NativeFunction {
 		try {
 			return method.invoke(null, args);
 		} catch (Exception e) {
-			throw new SefaException("There is not native function:"+name+" in here",tree) ;
+			throw new SefaException("There is not native function:"+name+" in here. ",tree) ;
 		}
 		
 		

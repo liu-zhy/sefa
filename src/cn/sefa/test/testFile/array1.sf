@@ -4,3 +4,7 @@ a[1] = "three"
 print("a[1] :"+a[1])
 b = [["one",1],["two",2]]
 print(b[1][0]+":"+b[1][1])
+b[3] = "Hello"
+b[100] = "WOrld"
+print(b[100])
+print("the length of b = "+length(b))

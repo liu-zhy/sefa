@@ -1,6 +1,7 @@
 package cn.sefa.parse;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import cn.sefa.ast.IEnvironment;
@@ -21,7 +22,7 @@ public class Natives {
 	public void appendNatives(IEnvironment env) {
 		append(env,"print" ,"print",Object.class);
 		append(env,"read" ,"read");
-		append(env,"length" ,"length",String.class);
+		append(env,"length" ,"length",Object.class);
 		append(env,"toInt" ,"toInt",Object.class);
 		append(env,"currentTime" ,"currentTime");
 	}
@@ -53,8 +54,12 @@ public class Natives {
 //		return JOptionPane.showInputDialog(null);
 	}
 	
-	public static int length(String s){
-		return s.length();
+	public static int length(Object s){
+		if(s instanceof String)
+			return ((String)s).length();
+		else if(s instanceof ArrayList<?>)
+			return ((ArrayList<?>)s).size();
+		throw new IndexOutOfBoundsException();
 	}
 	
 	public static int toInt(Object num){
