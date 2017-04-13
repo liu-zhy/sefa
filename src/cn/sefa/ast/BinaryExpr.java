@@ -60,27 +60,7 @@ public class BinaryExpr extends ASTList {
 						list.add(0);
 					list.set(index , rval);
 					return rval;
-					/*Object[] array = (Object[]) t;
-					String name = ((IdLeaf)((PrimaryExpr)left).operand()).getId() ;
-					Object res = ((ArrayRef) p.postfix(0)).getIndex().eval(env) ;
-					if(res instanceof Integer){
-						//如果访问越界，则重新分配数组，并复制原数组的内容
-						if((int)res>=array.length){
-							array = new Object[(int)res+20] ;
-							int i = 0 ;
-							for(Object obj : (Object[])t){
-								array[i++] = obj ;
-							}
-						}
-						array[(int) res] = rval;
-						if(t == (IdLeaf)((PrimaryExpr)left).operand()){
-							env.where(name).putInCrtEnv(name, array);
-						}
-						else{
-							
-						}
-						return rval;
-					}*/
+					
 				}
 			}
 

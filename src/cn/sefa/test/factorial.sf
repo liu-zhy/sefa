@@ -1,9 +1,0 @@
-//9!00
-res = 1;
-i = 1;
-while i< 10{
-	//factorial
-	res = res * i//comment
-	i = i+1;
-}
-res

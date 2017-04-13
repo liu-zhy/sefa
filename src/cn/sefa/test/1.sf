@@ -1,8 +1,0 @@
-while i<10{
-    num = 32
-    str = "hello world"
-    sum = sum+ 1
- //   j = (2+a)*b
-    i =i +1
-}
-sum

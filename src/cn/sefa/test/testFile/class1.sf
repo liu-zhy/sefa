@@ -1,7 +1,6 @@
-class Position{
+class Position2D{
     x = 0
     y =0
-    z = 0 
     def move(nx , ny){
         this.x = nx
         y = ny
@@ -11,7 +10,17 @@ class Position{
     }
 }
 
-p = Position.new
-p.move(2,3)()
-print(p.x+p.y)
-print(p.z+"...")
+class Position3D extends Position2D{
+	z = 0;
+	def move(nx , ny , nz){
+		x = nx 
+		y = ny
+		z = nz
+	}
+	
+}
+
+p = Position3D.new
+p.move(2,3,4)
+print(p.x+p.y+p.z)
+print(p.x*p.y*p.z+"...")

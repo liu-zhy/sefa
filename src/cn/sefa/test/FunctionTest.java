@@ -15,6 +15,7 @@ import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
 import cn.sefa.lexer.Token;
 import cn.sefa.parse.BasicParser;
+import cn.sefa.util.Debug;
 
 /**
  * @author Lionel
@@ -24,8 +25,8 @@ public class FunctionTest {
 
 	@Test
 	public void test1() throws ParseException, FileNotFoundException{
-		Lexer lexer = getLexer("fib.sf");
-		runTest(lexer);
+		Lexer lexer = Debug.getLexer("fib.sf");
+		Debug.runTest(lexer);
 	}
 	
 	@Test

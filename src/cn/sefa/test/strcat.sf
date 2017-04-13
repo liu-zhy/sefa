@@ -1,5 +1,0 @@
-def strcat(s1,s2){
-	s1+s2
-}
-
-strcat("stu","dent")
