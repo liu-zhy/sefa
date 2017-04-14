@@ -4,6 +4,8 @@ import java.rmi.AccessException;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.NestedEnv;
 
 /**
  * @author Lionel

@@ -2,12 +2,17 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.ResizableArrayEnv;
+import cn.sefa.symbol.Symbols;
+
 /**
  * @author Lionel
  *
  */
 public class FuncStmt extends ASTList {
 
+	private int index , size ;
 	public FuncStmt(List<ASTree> list) {
 		super(list);
 		// TODO Auto-generated constructor stub
@@ -32,11 +37,20 @@ public class FuncStmt extends ASTList {
 	}
 	
 	@Override
+	public void lookup(Symbols sym){
+		index = sym.putNew(getFuncName());
+		size = Closure.lookup(sym,getParams(),getBody());
+	}
+
+	@Override
 	public Object eval(IEnvironment env){
 		
-		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
+		((ResizableArrayEnv)env).put(0, index ,
+				new OptFunction(getParams(),getBody(),env,size));
+//		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
 //		System.out.println(env.get("fib"));
 		return getFuncName();
 	}
+	
 	
 }

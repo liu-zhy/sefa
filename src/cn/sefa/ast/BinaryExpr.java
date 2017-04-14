@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.Symbols;
 
 /**
  * @author Lionel
@@ -25,6 +27,20 @@ public class BinaryExpr extends ASTList {
 	
 	public ASTree getRight(){
 		return child(2);
+	}
+	
+	public void lookup(Symbols sym){
+		
+		ASTree left = getLeft();
+		if("=".equals(getOperator())){
+			if(left instanceof IdLeaf){
+				((IdLeaf)left).lookupForAssign(sym);
+				getRight().lookup(sym);
+				return ;
+			}
+		}
+		left.lookup(sym);
+		getRight().lookup(sym);
 	}
 	
 	@Override 

@@ -4,11 +4,11 @@ q:what is meaning of sefa?
 the rule of productions:
 note : [] is repeated zero or once  ,{} is repeated more than zero or equals zero;
 
-	primary		:	( "[" [elements] "]" | "("expr")" | NUMBER	| IDENTIFIER | STRING | closure){postfix}    
-	factor		:	"-"primary	| primary
-	expr		:	factor	{OP factor}
-	block		:	"{" [statement] {(";"|EOL) [statement]} "}"
-	statement	:	"if" expr block ["else" block]
+	primary		: ( "[" [elements] "]" | "("expr")" | NUMBER | IDENTIFIER | STRING | closure){postfix}    
+	factor		: "-"primary | primary
+	expr		: factor {OP factor}
+	block		: "{" [statement] {(";"|EOL) [statement]} "}"
+	statement	: "if" expr block ["else" block]
 					| "while" expr block
  					|	expr
 	elements	: expr {"," expr}
@@ -18,11 +18,11 @@ note : [] is repeated zero or once  ,{} is repeated more than zero or equals zer
 	param_list	: "(" [params] ")"
 	postfix		: "." IDENTIFIER | "(" [args] ")" | "[" [elements] "]"
 	member		: def | expr
-	closure		:	"closure" param_list block      
+	closure		: "closure" param_list block      
 	class_body	: "{" [member] {(";" | EOL) [member] } "}"
 	function	: "def" IDENTIFIER param_list block
 	defclass	: "class" IDENTIFIER ["extends" IDENTIFER] class_body
-	program		:	[defclass | function | statement]	(";"|EOL) ;
+	program		: [defclass | function | statement]	(";"|EOL) ;
 	
 	
 	

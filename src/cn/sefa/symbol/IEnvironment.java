@@ -1,4 +1,4 @@
-package cn.sefa.ast;
+package cn.sefa.symbol;
 
 import java.util.HashMap;
 
@@ -14,6 +14,5 @@ public interface IEnvironment {
 	IEnvironment where(String name) ;
 	void setOuter(IEnvironment env);
 	IEnvironment getOuter();
-	HashMap<String , Object> getTable();
 	
 }

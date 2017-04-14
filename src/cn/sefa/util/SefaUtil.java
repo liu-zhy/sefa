@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import cn.sefa.ast.IEnvironment;
-import cn.sefa.ast.NestedEnv;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.NestedEnv;
 
 /**
  * @author Lionel
@@ -17,8 +17,8 @@ public class SefaUtil {
 
 	public static void CopyEnv(IEnvironment from , IEnvironment to){
 	
-		Set<Entry<String, Object>> f = from.getTable().entrySet();
-		HashMap<String,Object> t = to.getTable();
+		Set<Entry<String, Object>> f = ((NestedEnv)from).getTable().entrySet();
+		HashMap<String,Object> t = ((NestedEnv)to).getTable();
 		for(Entry<String , Object> e: f){
 			t.put(e.getKey(), e.getValue());
 		}

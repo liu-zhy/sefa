@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.Symbols;
 
 /**
  * @author Lionel  
@@ -61,5 +63,20 @@ public class ASTList extends ASTree {
 	public Object eval(IEnvironment env) {
 		throw new SefaException("can't directly evaluate : "+toString(),this);
 	}
+
+	@Override
+	public void lookup(Symbols sym) {
+		
+		for(ASTree t : this){
+			t.lookup(sym);
+		}
+		
+	}
 	
+	@Override
+	public Iterator<ASTree> iterator() {
+		
+		return children.iterator();
+	}
+
 }

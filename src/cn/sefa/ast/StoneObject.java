@@ -2,6 +2,9 @@ package cn.sefa.ast;
 
 import java.rmi.AccessException;
 
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.NestedEnv;
+
 /**
  * @author Lionel
  *

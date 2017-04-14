@@ -2,12 +2,18 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.ArrayEnv;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.Symbols;
+
 /**
  * @author Lionel
  *
  */
 public class ParameterList extends ASTList {
 
+	private int[] offsets = null ;
+	
 	public ParameterList(List<ASTree> list) {
 		super(list);
 		// TODO Auto-generated constructor stub
@@ -21,8 +27,17 @@ public class ParameterList extends ASTList {
 		return this.numOfChildren();
 	}
 	
+	@Override
+	public void lookup(Symbols sym){
+		int size = numOfParams() ;
+		offsets = new int[size] ;
+		for(int i = 0 ; i < size ; ++i){
+			offsets[i] = sym.putNew(getName(i)) ;
+		}
+	}
+	
 	public void eval(IEnvironment env ,int index , Object value){
-		env.putInCrtEnv(getName(index), value);
+		((ArrayEnv)env).put(0 , offsets[index], value);
 	}
 	
 }

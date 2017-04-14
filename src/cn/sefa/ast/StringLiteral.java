@@ -1,6 +1,7 @@
 package cn.sefa.ast;
 
 import cn.sefa.lexer.Token;
+import cn.sefa.symbol.IEnvironment;
 
 /**
  * @author Lionel

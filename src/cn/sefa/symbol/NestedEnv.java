@@ -1,4 +1,4 @@
-package cn.sefa.ast;
+package cn.sefa.symbol;
 
 import java.util.HashMap;
 

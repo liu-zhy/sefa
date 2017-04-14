@@ -5,6 +5,8 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.IEnvironment;
+
 /**
  * @author Lionel
  *

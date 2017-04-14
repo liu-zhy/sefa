@@ -9,6 +9,8 @@ import java.util.List;
 
 import cn.sefa.exception.SefaException;
 import cn.sefa.lexer.Token;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.Symbols;
 
 /**
  * @author Lionel
@@ -53,13 +55,18 @@ public class ASTLeaf extends ASTree {
 		return token.getText() ;
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.sefa.ast.ASTree#eval()
-	 */
 	@Override
 	public Object eval(IEnvironment env) {
-		
 		throw new SefaException("can't directly evaluate : "+toString(),this);
+	}
+
+	@Override
+	public Iterator<ASTree> iterator() {
+		return empty.iterator();
+	}
+
+	@Override
+	public void lookup(Symbols sym) {
 		
 	}	
 	

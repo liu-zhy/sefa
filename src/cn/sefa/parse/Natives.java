@@ -4,9 +4,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import cn.sefa.ast.IEnvironment;
 import cn.sefa.ast.NativeFunction;
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.IEnvironment;
 
 /**
  * @author Lionel

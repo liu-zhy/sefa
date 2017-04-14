@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import cn.sefa.ast.ASTree;
-import cn.sefa.ast.IEnvironment;
-import cn.sefa.ast.NestedEnv;
 import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
 import cn.sefa.lexer.NumToken;
@@ -19,6 +17,8 @@ import cn.sefa.lexer.StrToken;
 import cn.sefa.lexer.Token;
 import cn.sefa.parse.BasicParser;
 import cn.sefa.parse.Natives;
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.NestedEnv;
 
 /**
  * @author Lionel

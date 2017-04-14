@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.IEnvironment;
 
 /**
  * @author Lionel

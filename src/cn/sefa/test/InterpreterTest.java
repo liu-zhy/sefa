@@ -9,11 +9,11 @@ import java.io.Reader;
 import org.junit.Test;
 
 import cn.sefa.ast.ASTree;
-import cn.sefa.ast.Environment;
 import cn.sefa.exception.ParseException;
 import cn.sefa.lexer.Lexer;
 import cn.sefa.lexer.Token;
 import cn.sefa.parse.BasicParser;
+import cn.sefa.symbol.Environment;
 
 /**
  * @author Lionel

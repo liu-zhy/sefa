@@ -1,4 +1,4 @@
-package cn.sefa.ast;
+package cn.sefa.symbol;
 
 import java.util.HashMap;
 
@@ -43,22 +43,11 @@ public class Environment implements IEnvironment {
 	public void setOuter(IEnvironment env) {
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.sefa.ast.IEnvironment#getOuter()
-	 */
 	@Override
 	public IEnvironment getOuter() {
 		
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.sefa.ast.IEnvironment#getTable()
-	 */
-	@Override
-	public HashMap<String, Object> getTable() {
-		
-		return null;
-	}
 
 }

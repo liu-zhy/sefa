@@ -2,12 +2,16 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.IEnvironment;
+import cn.sefa.symbol.Symbols;
+
 /**
  * @author Lionel
  *
  */
 public class Closure extends ASTList {
 
+	private int size = -1 ;
 	public Closure(List<ASTree> list) {
 		super(list);
 	}
@@ -21,10 +25,21 @@ public class Closure extends ASTList {
 	}
 	
 	@Override
+	public void lookup(Symbols sym){
+		size = lookup(sym,getParams(),getBody()) ;
+	}
+	
+	public static int lookup(Symbols sym, ParameterList params, BlockStmt body) {
+		Symbols newSym = new Symbols(sym);
+		params.lookup(newSym);
+		body.lookup(newSym);
+		return newSym.size();
+	}
+
+	@Override
 	public Object eval(IEnvironment env){
 		
-		return new Function(getParams(), getBody(), env);
-		
+		return new OptFunction(getParams(), getBody(), env, size);
 	}
 	
 	@Override
