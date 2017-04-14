@@ -46,7 +46,7 @@ public class Debug {
 	}
 	
 
-	public static void runTest(Lexer lexer) throws ParseException {
+	public static void runTest(Lexer lexer , boolean isDebug) throws ParseException {
 		BasicParser bp = new BasicParser();
 		IEnvironment env = new NestedEnv();
 		Natives nat = new Natives();
@@ -56,9 +56,15 @@ public class Debug {
 				System.out.println("null...");
 			}
 			ASTree t =bp.parse(lexer);
-			System.out.println("->>"+t.eval(env));
+			if(isDebug)
+				System.out.println("->>"+t.eval(env));
+			else
+				t.eval(env);
 			//t.eval(env);
 		}
+	}
+	public static void runTest(Lexer lexer ) throws ParseException {
+		runTest(lexer,true);
 	}
 	
 	

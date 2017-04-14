@@ -7,5 +7,5 @@ def fib(n){
 		fib(n-1) + fib(n-2);
 	}
 }
-fib(20)
-print(currentTime()-time)
+print("fib(10)="+fib(10))
+print("the program spent :"+(currentTime()-time) +"ms")

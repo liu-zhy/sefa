@@ -17,7 +17,7 @@ public class ArrayTest {
 	@Test
 	public void test() throws ParseException, FileNotFoundException{
 		Lexer lexer = Debug.getLexer("array1.sf");
-		Debug.runTest(lexer);
+		Debug.runTest(lexer ,false);
 	}
 	
 }
