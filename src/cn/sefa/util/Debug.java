@@ -19,6 +19,7 @@ import cn.sefa.parse.BasicParser;
 import cn.sefa.parse.Natives;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.NestedEnv;
+import cn.sefa.symbol.ResizableArrayEnv;
 
 /**
  * @author Lionel
@@ -46,9 +47,9 @@ public class Debug {
 	}
 	
 
-	public static void runTest(Lexer lexer) throws ParseException {
+	public static void runTest(Lexer lexer , boolean isDebug) throws ParseException {
 		BasicParser bp = new BasicParser();
-		IEnvironment env = new NestedEnv();
+		ResizableArrayEnv env = new ResizableArrayEnv();
 		Natives nat = new Natives();
 		nat.setEnv(env);
 		while(lexer.peek(0)!=Token.EOF){
@@ -56,11 +57,18 @@ public class Debug {
 				System.out.println("null...");
 			}
 			ASTree t =bp.parse(lexer);
-			System.out.println("->>"+t.eval(env));
+			t.lookup(env.getSymbols());
+			if(isDebug)
+				System.out.println("->>"+t.eval(env));
+			else
+				t.eval(env);
 			//t.eval(env);
 		}
 	}
 	
+	public static void runTest(Lexer lexer) throws ParseException{
+		runTest(lexer , true);
+	}
 	
 	public static Lexer getLexer(String name) throws FileNotFoundException {
 		File file = new File("src/cn/sefa/test/testFile/"+name);

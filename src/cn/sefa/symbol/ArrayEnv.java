@@ -1,7 +1,5 @@
 package cn.sefa.symbol;
 
-import java.util.HashMap;
-
 import cn.sefa.exception.SefaException;
 
 /**
@@ -33,7 +31,7 @@ public class ArrayEnv implements IEnvironment {
 	
 	public void put(int nest , int index , Object val){
 		if(nest == 0)
-			values[index] = values;
+			values[index] = val;
 		else if(outer == null)
 			throw new SefaException("without outer env , cannot find the symbol. ");
 		else

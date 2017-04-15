@@ -2,8 +2,6 @@ package cn.sefa.ast;
 
 import java.util.List;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import cn.sefa.symbol.IEnvironment;
 
 /**
