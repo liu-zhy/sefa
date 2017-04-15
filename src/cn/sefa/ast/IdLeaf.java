@@ -43,17 +43,17 @@ public class IdLeaf extends ASTLeaf {
 	
 	@Override
 	public Object eval(IEnvironment env){
-		//我觉得并没有必要判断，保险起见
+		/*//我觉得并没有必要判断，保险起见
 		if(index == UNKNOWN)
 			return env.get(getId());
-		else
+		else*/
 			return ((ArrayEnv)env).get(nest,index);
 	}
 	
 	public void evalForAssign(IEnvironment env , Object val){
-		if(index == UNKNOWN)
+		/*if(index == UNKNOWN)
 			env.put(getId(), val);
-		else
+		else*/
 			((ArrayEnv)env).put(nest,index,val);
 	}
 	

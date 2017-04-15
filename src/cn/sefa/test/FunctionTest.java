@@ -37,8 +37,8 @@ public class FunctionTest {
 	
 	@Test
 	public void test3() throws FileNotFoundException, ParseException{
-		Lexer lexer = getLexer("function.sf");
-		runTest(lexer);
+		Lexer lexer = Debug.getLexer("function.sf");
+		Debug.runTest(lexer);
 	}
 
 	private void runTest(Lexer lexer) throws ParseException {
