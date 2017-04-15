@@ -26,7 +26,7 @@ public class FunctionTest {
 	@Test
 	public void test1() throws ParseException, FileNotFoundException{
 		Lexer lexer = Debug.getLexer("fib.sf");
-		Debug.runTest(lexer , false);
+		Debug.runTest(lexer ,true);
 	}
 	
 	@Test
