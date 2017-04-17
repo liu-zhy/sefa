@@ -11,7 +11,7 @@ public class ClassInfo {
 
 	private ClassStmt definition ;
 	private IEnvironment env ;
-	private ClassInfo superClass;
+	protected ClassInfo superClass;
 	
 	public ClassInfo(ClassStmt classStmt, IEnvironment env) {
 		

@@ -1,11 +1,12 @@
 package cn.sefa.ast;
 
-import java.rmi.AccessException;
 import java.util.List;
 
+import cn.sefa.exception.AccessException;
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.ArrayEnv;
 import cn.sefa.symbol.IEnvironment;
-import cn.sefa.symbol.NestedEnv;
+import cn.sefa.symbol.Symbols;
 
 /**
  * @author Lionel
@@ -15,9 +16,12 @@ public class Dot extends Postfix {
 
 	public Dot(List<ASTree> list) {
 		super(list);
-		// TODO Auto-generated constructor stub
 	}
 
+	public void lookup(Symbols sym){
+		
+	}
+	
 	public String getName(){
 		return ((IdLeaf)child(0)).getId();
 	}
@@ -27,26 +31,26 @@ public class Dot extends Postfix {
 		String member = getName();
 		if(target instanceof ClassInfo){
 			if("new".equals(member)){
-				ClassInfo ci = (ClassInfo) target ;
-				NestedEnv newEnv = new NestedEnv(ci.getEnv()) ;
-				initObject(ci,newEnv);  
-				StoneObject so = new StoneObject(newEnv);
-				newEnv.putInCrtEnv("this",so);
+				OptClassInfo ci = (OptClassInfo) target ;
+				ArrayEnv newEnv = new ArrayEnv(1,ci.getEnv()) ;
+				OptSefaObject so = new OptSefaObject(ci , ci.size()) ;
+				newEnv.put(0,0,so);
+				initObject(ci , newEnv);  
 				return so ;
 			}
 		}
-		else if (target instanceof StoneObject){
-			
-			try{
-				return ((StoneObject)target).read(member);
+		else if (target instanceof OptSefaObject){
+			try {
+				return ((OptSefaObject)target).read(member);
+			} catch (AccessException e) {
 				
-			}catch(AccessException e){}
-			
+				e.printStackTrace();
+			}
 		}
 		throw new SefaException("cannot find :"+member,this);
 	}
 
-	private void initObject(ClassInfo ci, NestedEnv env) {
+	private void initObject(OptClassInfo ci,IEnvironment env){ 
 	
 		if(ci.getSuperClass() != null){
 			initObject(ci.getSuperClass(),env) ;

@@ -5,6 +5,7 @@ import cn.sefa.lexer.Token;
 import cn.sefa.symbol.ArrayEnv;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Location;
+import cn.sefa.symbol.MemberSymbols;
 import cn.sefa.symbol.Symbols;
 
 /**
@@ -25,6 +26,8 @@ public class IdLeaf extends ASTLeaf {
 	}
 	
 	public void lookup(Symbols sym){
+		if("new".equals(getId()))
+			return ;
 		Location loc = sym.get(getId());
 		if(loc == null){
 			throw new SefaException("undefined name: "+getId()+", ",this);
@@ -43,17 +46,29 @@ public class IdLeaf extends ASTLeaf {
 	
 	@Override
 	public Object eval(IEnvironment env){
-		/*//我觉得并没有必要判断，保险起见
+		//我觉得并没有必要判断，保险起见
 		if(index == UNKNOWN)
 			return env.get(getId());
-		else*/
-			return ((ArrayEnv)env).get(nest,index);
+		else if(nest == MemberSymbols.FIELD)
+			return getThis(env).read(index);
+		else if(nest == MemberSymbols.METHOD)
+			return getThis(env).getMethod(index);
+		return ((ArrayEnv)env).get(nest,index);
 	}
 	
+	protected OptSefaObject getThis(IEnvironment env){
+		return (OptSefaObject) ((ArrayEnv)env).get(0,0);
+	}
+	
+
 	public void evalForAssign(IEnvironment env , Object val){
-		/*if(index == UNKNOWN)
+		if(index == UNKNOWN)
 			env.put(getId(), val);
-		else*/
+		else if(nest == MemberSymbols.FIELD)
+			getThis(env).write(index, val);
+		else if(nest == MemberSymbols.METHOD)
+			throw new SefaException("cannot update this method:"+getId(),this);
+		else	
 			((ArrayEnv)env).put(nest,index,val);
 	}
 	

@@ -64,7 +64,7 @@ public class Symbols {
 			return i ;
 	}
 
-	private int add(String key) {
+	protected int add(String key) {
 		int index = table.size();
 		table.put(key, index);
 		return index ;

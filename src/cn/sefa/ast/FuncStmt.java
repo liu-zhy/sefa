@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.ResizableArrayEnv;
+import cn.sefa.symbol.SymbolThis;
 import cn.sefa.symbol.Symbols;
 
 /**
@@ -30,6 +31,10 @@ public class FuncStmt extends ASTList {
 		return (BlockStmt) child(2);
 	}
 
+	public int getSize(){
+		return this.size;
+	}
+	
 	@Override
 	public String toString(){
 		return "(function: "+getFuncName()
@@ -50,6 +55,14 @@ public class FuncStmt extends ASTList {
 //		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
 //		System.out.println(env.get("fib"));
 		return getFuncName();
+	}
+
+	public void lookupAsMethod(Symbols sym) {
+		Symbols newSym = new Symbols(sym);
+		newSym.putNew(SymbolThis.NAME);
+		getParams().lookup(newSym);
+		getBody().lookup(newSym);
+		size = newSym.size();
 	}
 	
 	

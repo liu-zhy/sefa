@@ -9,12 +9,12 @@ import cn.sefa.symbol.IEnvironment;
  */
 public class OptFunction extends Function {
 
-	private int size = -1 ; 
+	protected int size = -1 ; 
 
-	public OptFunction(ParameterList params, BlockStmt body, IEnvironment env) {
+	/*public OptFunction(ParameterList params, BlockStmt body, IEnvironment env) {
 		super(params, body, env);
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	
 	public OptFunction(ParameterList params, BlockStmt body, IEnvironment env, int size) {
 		super(params, body, env);

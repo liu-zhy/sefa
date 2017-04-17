@@ -3,6 +3,7 @@ package cn.sefa.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.sefa.exception.AccessException;
 import cn.sefa.exception.SefaException;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
@@ -30,7 +31,6 @@ public class BinaryExpr extends ASTList {
 	}
 	
 	public void lookup(Symbols sym){
-		
 		ASTree left = getLeft();
 		if("=".equals(getOperator())){
 			if(left instanceof IdLeaf){
@@ -64,8 +64,8 @@ public class BinaryExpr extends ASTList {
 					&& (p.postfix(0) instanceof Dot
 							|| p.postfix(0) instanceof ArrayRef)){
 				Object t = ((PrimaryExpr)left).evalSubExpr(env , 1);
-				if(t instanceof StoneObject){
-					return setField((StoneObject)t , (Dot)p.postfix(0),rval);
+				if(t instanceof OptSefaObject){
+					return setField((OptSefaObject)t , (Dot)p.postfix(0),rval);
 				}
 				else if(t instanceof ArrayList<?>){
 					ArrayList<Object> list = (ArrayList<Object>) t ;
@@ -76,7 +76,6 @@ public class BinaryExpr extends ASTList {
 						list.add(0);
 					list.set(index , rval);
 					return rval;
-					
 				}
 			}
 
@@ -87,13 +86,16 @@ public class BinaryExpr extends ASTList {
 		}
 
 		throw new SefaException("lvalue is not a Identifer",this);	
-		
 	}
 	
-	private Object setField(StoneObject so, Dot postfix, Object rval) {
+	private Object setField(OptSefaObject so, Dot postfix, Object rval) {
 		String name = postfix.getName();
-		so.write(name,rval) ;
-		return rval ;
+		try {
+			so.write(name,rval) ;
+			return rval ;
+		} catch (AccessException e) {
+			throw new SefaException("cannot access :"+name,this);
+		}
 	}
 
 	private Object computeOp(IEnvironment env) {

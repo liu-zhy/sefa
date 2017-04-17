@@ -31,7 +31,7 @@ public class Arguments extends Postfix {
 		}
 		
 		else if(!(val instanceof Function)){
-			throw new SefaException(val+"is not a function",this);
+			throw new SefaException(val+" is not a function",this);
 		}
 		
 		Function func = (Function)val;
