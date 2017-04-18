@@ -25,8 +25,7 @@ public class OptEnvTest {
 	@Test
 	public void test2() throws FileNotFoundException, ParseException{
 		Lexer lexer = Debug.getLexer("classFib.sf") ;
-		Debug.runTest(lexer);
-		
+		Debug.runTest(lexer,false);
 	}
 	
 }

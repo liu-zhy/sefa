@@ -15,7 +15,7 @@ import cn.sefa.symbol.Symbols;
 public class IdLeaf extends ASTLeaf {
 
 	private static final int UNKNOWN = -1 ;
-	private int nest , index ;
+	private int nest , index;
 	public IdLeaf(Token t) {
 		super(t);
 		index = UNKNOWN;
@@ -39,9 +39,9 @@ public class IdLeaf extends ASTLeaf {
 	}
 	
 	public void lookupForAssign(Symbols sym){
-		Location loc = sym.put(getId());
-		this.nest = loc.nest;
-		this.index = loc.index;
+		Location pos = sym.put(getId());
+		nest = pos.nest;
+		index = pos.index;
 	}
 	
 	@Override
@@ -71,5 +71,5 @@ public class IdLeaf extends ASTLeaf {
 		else	
 			((ArrayEnv)env).put(nest,index,val);
 	}
-	
+
 }

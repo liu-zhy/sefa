@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.sefa.exception.AccessException;
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.ArrayEnv;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
 
@@ -81,7 +82,8 @@ public class BinaryExpr extends ASTList {
 
 		}
 		else if(left instanceof IdLeaf){
-			env.put(((IdLeaf)left).getId(), rval);
+			((IdLeaf)left).evalForAssign(env, rval);;
+					
 			return rval;
 		}
 
