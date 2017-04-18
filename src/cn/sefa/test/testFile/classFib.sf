@@ -11,7 +11,7 @@ class Fib{
 				f2
 			}
 			else{
-            	fib(n-1)+fib(n-2) ;
+            	fib(n-1)+this.fib(n-2) ;
         	}
 		}
         

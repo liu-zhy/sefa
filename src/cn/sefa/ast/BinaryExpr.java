@@ -110,7 +110,6 @@ public class BinaryExpr extends ASTList {
 		//´¦Àí×Ö·û´®ÔËËã
 		else if(left instanceof String || right instanceof String){
 			return computerStr(left , op ,right);
-			
 		}
 		else{
 			throw new SefaException("left expr and right expr are not same type.",this);

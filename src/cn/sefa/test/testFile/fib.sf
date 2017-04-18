@@ -1,6 +1,6 @@
 def fib(n){
-	if n< 2{
-		n
+	if n< 3 {
+		1
 	}
 	else{
 		fib(n-1) + fib(n-2);
@@ -8,5 +8,5 @@ def fib(n){
 }
 a = read();
 time = currentTime()
-fib(toInt(a))
-print(currentTime()-time)
+print(fib(toInt(a))+"\n")
+print("spend "+(currentTime()-time)+"ms")
