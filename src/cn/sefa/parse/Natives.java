@@ -43,7 +43,7 @@ public class Natives {
 	}
 	
 	public static int print(Object obj){
-		System.out.println(obj);
+		System.out.print(obj);
 		return 0;
 	}
 	

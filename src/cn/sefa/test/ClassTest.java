@@ -21,5 +21,13 @@ public class ClassTest {
 		
 		
 	}
+	
+	
+	@Test
+	public void test1() throws Exception{
+		Lexer lexer = Debug.getLexer("classFib.sf");
+		Debug.runTest(lexer,false);
+		
+	}
 
 }

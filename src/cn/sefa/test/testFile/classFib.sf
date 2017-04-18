@@ -1,0 +1,23 @@
+class Fib{
+    f1 = 1
+    f2 =2
+    def fib(n){
+        if(n == 1){
+            f1
+        }
+        else{
+            if(n == 2){
+                f2 
+            }
+            else{
+                fib(n-1)+fib(n-2)
+            }
+        }
+    }
+}
+
+f = Fib.new
+print("begin\n")
+time = currentTime()
+print(f.fib(33)+"\n")
+print("end\nall procedure spent "+(currentTime()-time)+"ms");
