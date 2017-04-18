@@ -7,10 +7,10 @@ class Fib{
         }
         else{
             if(n == 2){
-                f2 
+                this.f2 
             }
             else{
-                fib(n-1)+fib(n-2)
+                fib(n-1)+this.fib(n-2)
             }
         }
     }
