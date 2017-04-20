@@ -4,11 +4,11 @@ class Fib{
 	f2 = 1
     def fib(n){
         if(n==1){
-            this.f1
+            f1
         }
 		else{
 			if(n == 2){
-				f2
+				this.f2
 			}
 			else{
             	fib(n-1)+this.fib(n-2) ;
