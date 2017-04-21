@@ -9,6 +9,7 @@ import java.util.List;
 
 import cn.sefa.exception.SefaException;
 import cn.sefa.lexer.Token;
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
 
@@ -69,5 +70,12 @@ public class ASTLeaf extends ASTree {
 	public void lookup(Symbols sym) {
 		
 	}	
+	
+
+	@Override
+	public void compile(Code c) {
+		throw new SefaException("compile error in IdLeaf");
+	}
+
 	
 }

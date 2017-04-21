@@ -2,6 +2,7 @@ package cn.sefa.ast;
 
 import java.util.Iterator;
 
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
 
@@ -20,5 +21,5 @@ public abstract class ASTree implements Iterable<ASTree> {
 	public abstract String location();
 	public abstract Object eval(IEnvironment env);
 	public abstract void lookup(Symbols sym	);
-	
+	public abstract void compile(Code c);
 }

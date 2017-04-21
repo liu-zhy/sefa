@@ -3,7 +3,9 @@ package cn.sefa.ast;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Opcode;
 
 /**
  * @author Lionel
@@ -64,5 +66,25 @@ public class Arguments extends Postfix {
 		return func.invoke(args, this) ;
 	}
 	
+	@Override
+	public void compile(Code c){
+		
+		int newOffset = c.frameSize;
+		int numOfArgs = 0 ;
+		for (ASTree t : this){
+			t.compile(c);
+			c.add(Opcode.MOVE);
+			c.add(Opcode.encodeRegister(--c.nextReg));
+			c.add(Opcode.encodeByteOffset(newOffset++));
+			numOfArgs++ ;
+		}
+		c.add(Opcode.CALL);
+		c.add(Opcode.encodeRegister(--c.nextReg));
+		c.add(Opcode.encodeByteOffset(numOfArgs));
+		c.add(Opcode.MOVE);
+		c.add(Opcode.encodeByteOffset(c.frameSize));
+		c.add(Opcode.encodeRegister(c.nextReg++));
+		
+	}
 	
 }

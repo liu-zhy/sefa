@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
 
@@ -73,6 +74,11 @@ public class ASTList extends ASTree {
 		
 	}
 	
+	public void compile(Code c){
+		for(ASTree t : this){
+			t.compile(c);
+		}
+	}
 	@Override
 	public Iterator<ASTree> iterator() {
 		

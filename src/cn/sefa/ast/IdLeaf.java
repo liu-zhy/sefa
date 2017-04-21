@@ -3,10 +3,12 @@ package cn.sefa.ast;
 import cn.sefa.exception.SefaException;
 import cn.sefa.lexer.Token;
 import cn.sefa.symbol.ArrayEnv;
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Location;
 import cn.sefa.symbol.MemberSymbols;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Opcode;
 
 /**
  * @author Lionel
@@ -71,5 +73,35 @@ public class IdLeaf extends ASTLeaf {
 		else	
 			((ArrayEnv)env).put(nest,index,val);
 	}
+
+	@Override
+	public void compile(Code c) {
+		
+		if(nest>0){
+			c.add(Opcode.GMOVE);
+			c.add(Opcode.encodeShortOffset(index));
+			c.add(Opcode.encodeRegister(c.nextReg++)); 
+		}
+		else{
+			c.add(Opcode.MOVE) ;
+			c.add(Opcode.encodeShortOffset(index));
+			c.add(Opcode.encodeRegister(c.nextReg++));
+		}
+		
+	}
+	
+	public void compileAssign(Code c){
+		if(nest>0){
+			c.add(Opcode.GMOVE);
+			c.add(Opcode.encodeRegister(c.nextReg-1));
+			c.add(Opcode.encodeShortOffset(index));
+		}
+		else{
+			c.add(Opcode.MOVE);
+			c.add(Opcode.encodeRegister(c.nextReg-1));
+			c.add(Opcode.encodeByteOffset(index));
+		}
+	}
+	
 
 }

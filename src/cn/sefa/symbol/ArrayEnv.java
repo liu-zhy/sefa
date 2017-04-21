@@ -1,6 +1,7 @@
 package cn.sefa.symbol;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.vm.SefaVM;
 
 /**
  * @author Lionel
@@ -79,6 +80,21 @@ public class ArrayEnv implements IEnvironment {
 	
 	private void error(String name) {
 		throw new SefaException("cannot access by name : "+name);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.sefa.symbol.IEnvironment#sefaVM()
+	 */
+	@Override
+	public SefaVM sefaVM() {
+		
+		return null;
+	}
+
+	@Override
+	public Code code() {
+		
+		return null;
 	}
 
 }

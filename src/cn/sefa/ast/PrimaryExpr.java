@@ -2,6 +2,7 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 
 /**
@@ -41,6 +42,21 @@ public class PrimaryExpr extends ASTList {
 		}
 		else{
 			return operand().eval(env);
+		}
+	}
+	
+	@Override
+	public void compile(Code c){
+		compileSubExpr(c,0);
+	}
+
+	private void compileSubExpr(Code c, int nest) {
+		if(hasPostfix(nest)){
+			compileSubExpr(c,nest+1);
+			postfix(nest).compile(c);
+		}
+		else{
+			operand().compile(c);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 package cn.sefa.symbol;
 
-import java.util.HashMap;
+import cn.sefa.vm.SefaVM;
 
 /**
  * @author Lionel
@@ -14,5 +14,6 @@ public interface IEnvironment {
 	IEnvironment where(String name) ;
 	void setOuter(IEnvironment env);
 	IEnvironment getOuter();
-	
+	SefaVM sefaVM();
+	Code code();
 }

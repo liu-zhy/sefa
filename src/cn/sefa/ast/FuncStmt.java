@@ -2,10 +2,13 @@ package cn.sefa.ast;
 
 import java.util.List;
 
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
-import cn.sefa.symbol.ResizableArrayEnv;
 import cn.sefa.symbol.SymbolThis;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Opcode;
+import cn.sefa.vm.SefaVM;
+import cn.sefa.vm.VMFunction;
 
 /**
  * @author Lionel
@@ -50,10 +53,11 @@ public class FuncStmt extends ASTList {
 	@Override
 	public Object eval(IEnvironment env){
 		
-		((ResizableArrayEnv)env).put(0, index ,
-				new OptFunction(getParams(),getBody(),env,size));
-//		env.putInCrtEnv(getFuncName(), new Function(getParams(),getBody(),env));
-//		System.out.println(env.get("fib"));
+		Code code = env.code();
+		int entry = code.begin();
+		compile(code);
+		env.putInCrtEnv(getFuncName(), 
+					new VMFunction(getParams(),getBody(),env,entry));
 		return getFuncName();
 	}
 
@@ -63,6 +67,20 @@ public class FuncStmt extends ASTList {
 		getParams().lookup(newSym);
 		getBody().lookup(newSym);
 		size = newSym.size();
+	}
+	
+	public void compile(Code c){
+		c.nextReg = 0 ;
+		c.frameSize = size + SefaVM.SAVE_AREA_SIZE;
+		c.add(Opcode.SAVE);
+		c.add(Opcode.encodeByteOffset(size));
+		getBody().compile(c);
+		c.add(Opcode.MOVE);
+		c.add(Opcode.encodeRegister(c.nextReg-1));
+		c.add(Opcode.encodeByteOffset(0));
+		c.add(Opcode.RESTORE);
+		c.add(Opcode.encodeByteOffset(size));
+		c.add(Opcode.RETURN);
 	}
 	
 	

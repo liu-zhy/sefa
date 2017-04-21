@@ -2,9 +2,9 @@ package cn.sefa.ast;
 
 import java.util.List;
 
-import cn.sefa.symbol.ArrayEnv;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.SefaVM;
 
 /**
  * @author Lionel
@@ -37,7 +37,10 @@ public class ParameterList extends ASTList {
 	}
 	
 	public void eval(IEnvironment env ,int index , Object value){
-		((ArrayEnv)env).put(0 , offsets[index], value);
+//		((ArrayEnv)env).put(0 , offsets[index], value);
+		SefaVM vm = env.sefaVM();
+		vm.getStack()[offsets[index]] = value ;
 	}
+	 
 	
 }

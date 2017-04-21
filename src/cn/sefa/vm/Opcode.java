@@ -55,9 +55,9 @@ public class Opcode {
 		return -1-operand ;
 	}
 	
-	public static short encodeByteOffset(int offset){
+	public static byte encodeByteOffset(int offset){
 		if(offset>Byte.MAX_VALUE)
-			throw new SefaException("byte offset has exceeded.");
+			throw new SefaException("byte offset has exceeded the limits.");
 		else
 			return (byte)offset;
 	}

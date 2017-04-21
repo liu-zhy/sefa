@@ -5,9 +5,10 @@ import java.util.List;
 
 import cn.sefa.exception.AccessException;
 import cn.sefa.exception.SefaException;
-import cn.sefa.symbol.ArrayEnv;
+import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Opcode;
 
 /**
  * @author Lionel
@@ -172,6 +173,49 @@ public class BinaryExpr extends ASTList {
 		}
 		else
 			throw new SefaException("wrong operator:"+op,this);
+	}
+	
+	@Override
+	public void compile(Code c){
+		
+		String op = getOperator() ;
+		if(op.equals("=")){
+			ASTree lval = getLeft() ;
+			if(lval instanceof IdLeaf){
+				getRight().compile(c);
+				((IdLeaf) lval).compileAssign(c);
+			}
+			else{
+				throw new SefaException(" there is an error in assignment. ");
+			}
+			
+		}
+		else{
+			getLeft().compile(c);
+			getRight().compile(c);
+			c.add(getOpcode(op));
+			c.add(Opcode.encodeRegister(c.nextReg-2));
+			c.add(Opcode.encodeRegister(c.nextReg-1));
+		}
+		
+	}
+
+	private byte getOpcode(String op) {
+		
+		switch(op){
+		case "+": return Opcode.ADD;
+		case "-": return Opcode.SUB;
+		case "*": return Opcode.MUL;
+		case "/": return Opcode.DIV;
+		case "%": return Opcode.REM;
+		case "==": return Opcode.EQUAL;
+		case ">": return Opcode.MORE;
+		case "<": return Opcode.LESS;
+		case "<=": return Opcode.LEQ;
+		case ">=": return Opcode.MEQ;
+		default: throw new SefaException("Finding a wrong operator in BinaryExpr when compiling") ;
+		}
+		
 	}
 	
 	

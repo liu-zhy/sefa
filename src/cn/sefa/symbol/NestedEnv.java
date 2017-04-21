@@ -2,6 +2,8 @@ package cn.sefa.symbol;
 
 import java.util.HashMap;
 
+import cn.sefa.vm.SefaVM;
+
 /**
  * @author Lionel
  *
@@ -75,6 +77,21 @@ public class NestedEnv implements IEnvironment {
 		if(outer != null){
 			return outer.where(name) ;			
 		}	
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.sefa.symbol.IEnvironment#sefaVM()
+	 */
+	@Override
+	public SefaVM sefaVM() {
+		
+		return null;
+	}
+
+	@Override
+	public Code code() {
+		
 		return null;
 	}
 

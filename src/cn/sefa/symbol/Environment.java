@@ -3,6 +3,7 @@ package cn.sefa.symbol;
 import java.util.HashMap;
 
 import cn.sefa.lexer.Token;
+import cn.sefa.vm.SefaVM;
 
 /**
  * @author Lionel
@@ -45,6 +46,18 @@ public class Environment implements IEnvironment {
 
 	@Override
 	public IEnvironment getOuter() {
+		
+		return null;
+	}
+
+	@Override
+	public SefaVM sefaVM() {
+		
+		return null;
+	}
+
+	@Override
+	public Code code() {
 		
 		return null;
 	}
