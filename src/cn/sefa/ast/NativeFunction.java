@@ -18,7 +18,7 @@ public class NativeFunction {
 		this.method = method ;
 	}
 	
-	protected int numOfParams(){
+	public int numOfParams(){
 		return method.getParameterCount() ;
 	}
 	
