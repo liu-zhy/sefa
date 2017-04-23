@@ -1,6 +1,7 @@
 package cn.sefa.symbol;
 
 import cn.sefa.exception.SefaException;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.SefaVM;
 
 /**

@@ -5,8 +5,8 @@ package cn.sefa.ast;
 
 import cn.sefa.lexer.NumToken;
 import cn.sefa.lexer.Token;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.Opcode;
 
 /**

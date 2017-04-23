@@ -1,5 +1,10 @@
 package cn.sefa.vm;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import cn.sefa.ast.ASTList;
@@ -14,16 +19,17 @@ import cn.sefa.exception.SefaVMException;
 public class SefaVM {
 
 	/*
-	 * The memory is divided into four parts, including code ,stack , const literal ,heap.
+	 * The memory is divided into four parts, 
+	 * including code ,stack , constant literal ,heap.
 	 */
 	protected byte[] code ;
 	protected Object[] stack;
 	protected String[] strings ;
 	protected HeapMemory heap;
-	
+	protected OutputStreamWriter writer ;
 	public int pc , fp , sp , ret ;
 	protected Object[] registers ;
-	public final static int NUM_OF_REG = 6 ;
+	public final static int NUM_OF_REG = 8 ;
 	public final static int SAVE_AREA_SIZE = NUM_OF_REG + 2;
 	public final static int TRUE = 1 ;
 	public final static int FALSE = 0 ;
@@ -34,6 +40,22 @@ public class SefaVM {
 		strings = new String[stringsSize] ;
 		registers = new Object[NUM_OF_REG] ;
 		heap = hm ;
+		File fout = new File("src/cn/sefa/test/testFile/bytecode.ir");
+		if(!fout.exists()){
+			try {
+				fout.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        FileOutputStream fos=null;
+		try {
+			fos = new FileOutputStream(fout);
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+        this.writer = new OutputStreamWriter(fos);
 	}
 	
 	public Object getReg(int i){
@@ -48,6 +70,10 @@ public class SefaVM {
 		return strings ;
 	}
 	
+	public Object[] getRegisters(){
+		return registers;
+	}
+	
 	public byte[] getCode(){
 		return code ;
 	}
@@ -60,7 +86,7 @@ public class SefaVM {
 		return heap ;
 	}
 	
-	public void run(int entry){
+	public void run(int entry) {
 		pc = entry ;
 		fp = 0 ;
 		sp = 0 ;
@@ -70,7 +96,7 @@ public class SefaVM {
 		}
 	}
 
-	protected void mainInLoop() {		
+	protected void mainInLoop(){		
 		switch(code[pc]){
 		case Opcode.LOADI :{
 			registers[Opcode.decodeRegister(code[pc+5])] = readInt(code,pc+1) ;
@@ -78,19 +104,19 @@ public class SefaVM {
 			break ;
 		}
 		case Opcode.LOADB :{
-			registers[Opcode.decodeRegister(code[pc+2])] = code[pc+1] ; 
+			registers[Opcode.decodeRegister(code[pc+2])] = (int)code[pc+1] ; 
 			pc += 3;
 			break ;
 		}
 		case Opcode.LOADS:{
-			registers[Opcode.decodeRegister(code[pc+3])] = readShort(code , pc+1);
+			registers[Opcode.decodeRegister(code[pc+3])] = strings[readShort(code,pc+1)];
+			pc+=4;
 			break ;
 		}
 		case Opcode.MOVE:{
 			move(pc+1,pc+2) ;
 			break; 
 		}
-		
 		case Opcode.GMOVE:{
 			/*
 			 * src and dest are not all register or heap
@@ -100,7 +126,8 @@ public class SefaVM {
 			break ;
 		}
 		case Opcode.IFZERO :{
-			Object val = registers[Opcode.decodeRegister(code[pc+1])];
+			int regAddr = Opcode.decodeRegister(code[pc+1]) ;
+			Object val = registers[regAddr];
 			if(val instanceof Integer && ((Integer) val).intValue() == 0){
 				pc += readShort(code, pc+2);
 			}
@@ -121,14 +148,16 @@ public class SefaVM {
 		}
 		case Opcode.GOTO:{
 			Object offset = readShort(code,pc+1) ;
-			if(offset instanceof Integer)
+			if(offset instanceof Integer){
 				pc += ((Integer) offset).intValue();
+			}
 			else
 				throw new SefaVMException("the value of offset is not a number. ");
 			break ;
 		}
 		case Opcode.CALL:{
 			callFunction() ;
+			break ;
 		}
 		case Opcode.RETURN:{
 			pc = ret ;
@@ -142,7 +171,6 @@ public class SefaVM {
 			restoreRegs();
 			break ;
 		}
-			
 		case Opcode.NEG :{
 			if(Opcode.isRegister(code[pc+1])){
 				int regAddr = Opcode.decodeRegister(code[pc+1]);
@@ -168,9 +196,7 @@ public class SefaVM {
 			break ;
 			
 		}
-		
 		}
-		
 	}
 
 	private Object readInt(byte[] mem, int i) {
@@ -187,10 +213,10 @@ public class SefaVM {
 		return mem[i]<<8 | (mem[i+1]&0xff);
 	}
 	
-	private void move(int srcAddr , int destAddr) {
+	private void move(int srcAddr , int destAddr){
+		
 		byte src = code[srcAddr];
 		byte dest = code[destAddr];
-		
 		Object value;
 		if(Opcode.isRegister(src)){
 			value = registers[Opcode.decodeRegister(src)] ; 
@@ -201,6 +227,7 @@ public class SefaVM {
 		else{
 			throw new SefaVMException("the instruction of move decode failure.");
 		}
+		
 		if(Opcode.isRegister(dest)){
 			registers[Opcode.decodeRegister(dest)] = value ;
 		}
@@ -211,33 +238,30 @@ public class SefaVM {
 			throw new SefaVMException("the instruction of move decode failure.");
 		}
 		pc += 3 ;
-
 	}
 	
-	private void gmove() {
+	private void gmove(){
 		
 		if(Opcode.isRegister(code[pc+1])){
-			if(Opcode.isRegister(code[pc+1])){
-				 heap.write(readShort(code, pc+2),registers[Opcode.decodeRegister(code[pc+1])]);
-			}
-			else{
-				registers[Opcode.decodeRegister(code[pc+3])] = heap.read(readShort(code, pc+1)) ;
-			}
+			 heap.write(readShort(code, pc+2), registers[Opcode.decodeRegister(code[pc+1])]);
+		}
+		else{
+			int addr = Opcode.decodeRegister(code[pc+3]);
+			registers[addr] = heap.read(readShort(code, pc+1)) ;
 		}
 		pc += 4 ;
 	}
 	
 	private void callFunction() {
+		
 		Object val = registers[Opcode.decodeRegister(code[pc+1])] ;
 		int numOfArgs = code[pc+2] ;
-	
 		if(val instanceof VMFunction 
 				&& ((VMFunction)val).getParams().numOfParams() == numOfArgs){
 			ret = pc + 3 ;
 			pc = ((VMFunction)val).entry() ;
 		}
-			
-		if(val instanceof NativeFunction 
+		else if(val instanceof NativeFunction 
 				&& ((NativeFunction) val).numOfParams() == numOfArgs){
 			Object[] args = new Object[numOfArgs] ;
 			for(int i = 0 ; i < numOfArgs ; i++){
@@ -263,12 +287,11 @@ public class SefaVM {
 		sp += size + SAVE_AREA_SIZE ;
 		stack[dest++] = ret ;
 		pc += 2 ;
-		
 	}
 	
 	private void restoreRegs() {
 		
-		int dest = Opcode.decodeOffset(code[pc+1]);
+		int dest = Opcode.decodeOffset(code[pc+1])+fp;
 		for(int i = 0 ; i < NUM_OF_REG ; ++i){
 			registers[i] = stack[dest++];
 		}
@@ -276,7 +299,6 @@ public class SefaVM {
 		fp = ((Integer) stack[dest++]).intValue();
 		ret = ((Integer) stack[dest++]).intValue();
 		pc += 2 ;
-		
 	}
 	
 	private void computeNumber() {
@@ -288,9 +310,11 @@ public class SefaVM {
 		if(code[pc] == Opcode.ADD && !allNum){
 			registers[left] = String.valueOf(lval)+String.valueOf(rval);
 		}
-		else if(code[pc] == Opcode.EQUAL &&  allNum){
+		else if(code[pc] == Opcode.EQUAL &&  !allNum){
 			if(lval == null)
 				registers[left] = rval == null ? TRUE : FALSE ;
+			else
+				registers[left] = lval.equals(rval)?TRUE:FALSE;
 		}
 		else{
 			if(!allNum)
@@ -316,7 +340,7 @@ public class SefaVM {
 				break ;
 			}
 			case Opcode.REM:{
-				res = lnum/rnum	;
+				res = lnum%rnum	;
 				break ;
 			}
 			case Opcode.EQUAL:{
@@ -346,5 +370,4 @@ public class SefaVM {
 		}
 		pc += 3 ;
 	}
-
 }

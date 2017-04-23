@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Code;
 
 /**
  * @author Lionel  

@@ -4,6 +4,8 @@ import java.util.List;
 
 import cn.sefa.exception.SefaException;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
+import cn.sefa.vm.Opcode;
 
 /**
  * @author Lionel
@@ -56,6 +58,31 @@ public class IfStmt extends ASTList {
 		}
 		
 		return res ;
+	}
+	
+	@Override
+	public void compile(Code c){
+		getCondition().compile(c);
+		int pos = c.position();
+		c.add(Opcode.IFZERO);
+		c.add(Opcode.encodeRegister(--c.nextReg));
+		c.add(Opcode.encodeShortOffset(0));
+		int oldReg = c.nextReg ;
+		getThenBlock().compile(c);
+		int elsePos = c.position();
+		c.add(Opcode.GOTO);
+		c.add(Opcode.encodeShortOffset(0));
+		c.set(Opcode.encodeShortOffset(c.position()-pos),pos+2);
+		ASTree elze = getElseBolck();
+		c.nextReg = oldReg;
+		if(elze != null )
+			elze.compile(c);
+		else{
+			c.add(Opcode.LOADB);
+			c.add((byte)0);
+			c.add(Opcode.encodeRegister(c.nextReg));
+		}
+		c.set(Opcode.encodeShortOffset(c.position()-elsePos) , elsePos+1);
 	}
 	
 }

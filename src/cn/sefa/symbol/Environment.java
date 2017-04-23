@@ -3,6 +3,7 @@ package cn.sefa.symbol;
 import java.util.HashMap;
 
 import cn.sefa.lexer.Token;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.SefaVM;
 
 /**

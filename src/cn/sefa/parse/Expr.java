@@ -51,6 +51,9 @@ public class Expr extends Element {
 		
 		ASTree right = factor.parse(lexer);
 		Precedence next ;
+		/*
+		 * if the precedence of next operator high than current, solving the expression recursively.
+		 */
 		while((next = nextOperator(lexer))!=null
 				&& rightIsExpr(value,next)){
 			right = doShift(lexer,right,next.value);

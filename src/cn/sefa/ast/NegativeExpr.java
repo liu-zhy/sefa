@@ -3,8 +3,8 @@ package cn.sefa.ast;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.Opcode;
 
 

@@ -3,11 +3,11 @@ package cn.sefa.ast;
 import cn.sefa.exception.SefaException;
 import cn.sefa.lexer.Token;
 import cn.sefa.symbol.ArrayEnv;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Location;
 import cn.sefa.symbol.MemberSymbols;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.Opcode;
 
 /**
@@ -83,8 +83,8 @@ public class IdLeaf extends ASTLeaf {
 			c.add(Opcode.encodeRegister(c.nextReg++)); 
 		}
 		else{
-			c.add(Opcode.MOVE) ;
-			c.add(Opcode.encodeShortOffset(index));
+			c.add(Opcode.MOVE);
+			c.add(Opcode.encodeByteOffset(index));
 			c.add(Opcode.encodeRegister(c.nextReg++));
 		}
 		

@@ -1,12 +1,16 @@
 def fib(n){
+	res=0
 	if n< 3 {
-		1
+		res = 1
 	}
 	else{
-		fib(n-1) + fib(n-2);
+		x = n-1
+		y = n-2
+		res = fib(x) + fib(y);
 	}
+	res
 }
-a = read();
+//a = read();
 time = currentTime()
-print(fib(toInt(a))+"\n")
-print("spend "+(currentTime()-time)+"ms")
+print(fib(33)+"\n")
+print("spend "+(currentTime()-time)+"ms\n")

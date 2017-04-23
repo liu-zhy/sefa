@@ -5,9 +5,9 @@ import java.util.List;
 
 import cn.sefa.exception.AccessException;
 import cn.sefa.exception.SefaException;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
 import cn.sefa.symbol.Symbols;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.Opcode;
 
 /**
@@ -47,7 +47,6 @@ public class BinaryExpr extends ASTList {
 	
 	@Override 
 	public Object eval(IEnvironment env){
-		
 		if("=".equals(getOperator())){
 			return computeAssign(env);
 		}
@@ -80,7 +79,6 @@ public class BinaryExpr extends ASTList {
 					return rval;
 				}
 			}
-
 		}
 		else if(left instanceof IdLeaf){
 			((IdLeaf)left).evalForAssign(env, rval);;
@@ -177,7 +175,6 @@ public class BinaryExpr extends ASTList {
 	
 	@Override
 	public void compile(Code c){
-		
 		String op = getOperator() ;
 		if(op.equals("=")){
 			ASTree lval = getLeft() ;
@@ -188,7 +185,6 @@ public class BinaryExpr extends ASTList {
 			else{
 				throw new SefaException(" there is an error in assignment. ");
 			}
-			
 		}
 		else{
 			getLeft().compile(c);
@@ -196,6 +192,7 @@ public class BinaryExpr extends ASTList {
 			c.add(getOpcode(op));
 			c.add(Opcode.encodeRegister(c.nextReg-2));
 			c.add(Opcode.encodeRegister(c.nextReg-1));
+			c.nextReg--;
 		}
 		
 	}

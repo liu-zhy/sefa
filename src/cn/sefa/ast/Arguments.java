@@ -3,9 +3,11 @@ package cn.sefa.ast;
 import java.util.List;
 
 import cn.sefa.exception.SefaException;
-import cn.sefa.symbol.Code;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
 import cn.sefa.vm.Opcode;
+import cn.sefa.vm.SefaVM;
+import cn.sefa.vm.VMFunction;
 
 /**
  * @author Lionel
@@ -29,26 +31,33 @@ public class Arguments extends Postfix {
 	public Object eval(IEnvironment callerEnv, Object val) {
 		
 		if(val instanceof NativeFunction){
-			return evalNativeFunc(callerEnv,(NativeFunction)val);
+			return callNativeFunction(callerEnv, val);
 		}
-		
-		else if(!(val instanceof Function)){
-			throw new SefaException(val+" is not a function",this);
+		else if(!(val instanceof VMFunction)){
+			throw new SefaException("function call find error.");
 		}
-		
-		Function func = (Function)val;
+		VMFunction func = (VMFunction) val;
 		ParameterList params = func.getParams();
-		
-		if(numOfArgs() != params.numOfChildren()){
-			throw new SefaException("the numbers of argument don't match .",this);
+		if(numOfArgs() != params.numOfParams()){
+			throw new SefaException("the arguments are incompatible.");
 		}
-		IEnvironment newEnv = func.makeEnv();
 		int num = 0 ;
-		for(ASTree t: getArgs()){
-			params.eval(newEnv,num++,t.eval(callerEnv));
+		for(ASTree t : this){
+			params.eval(callerEnv,num++,t.eval(callerEnv));
 		}
+		SefaVM svm = callerEnv.sefaVM();
+		svm.run(func.entry());
+		return svm.getStack()[0];
 		
-		return func.getBody().eval(newEnv);
+	}
+
+	private Object callNativeFunction(IEnvironment callerEnv, Object val) {
+		Object[] args = new Object[numOfArgs()] ;
+		int i = 0 ;
+		for(ASTree t : this){
+			args[i++] = t.eval(callerEnv);
+		}
+		return ((NativeFunction) val).invoke(args , this) ;
 	}
 	
 	public Object evalNativeFunc(IEnvironment env, NativeFunction func){
@@ -56,13 +65,11 @@ public class Arguments extends Postfix {
 		if(numOfArgs() != func.numOfParams()){
 			throw new SefaException("the number of arguments is incorrect. ",this) ;
 		}
-		
 		Object[] args = new Object[func.numOfParams()];
 		int cnt = 0;
 		for(ASTree t : getArgs()){
 			args[cnt++] = t.eval(env);
 		}
-		
 		return func.invoke(args, this) ;
 	}
 	
@@ -84,7 +91,6 @@ public class Arguments extends Postfix {
 		c.add(Opcode.MOVE);
 		c.add(Opcode.encodeByteOffset(c.frameSize));
 		c.add(Opcode.encodeRegister(c.nextReg++));
-		
 	}
 	
 }

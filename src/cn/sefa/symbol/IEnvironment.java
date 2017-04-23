@@ -1,5 +1,6 @@
 package cn.sefa.symbol;
 
+import cn.sefa.vm.Code;
 import cn.sefa.vm.SefaVM;
 
 /**

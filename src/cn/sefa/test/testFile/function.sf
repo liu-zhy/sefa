@@ -1,6 +1,7 @@
 def func(x,y){
-    x*y*z
+    ret = x*y+(-12)/2+17%5
+    ret
 }
 
-z = 0;
-func(2,3)
+z = 1;
+print(func(2,3)+"\n")

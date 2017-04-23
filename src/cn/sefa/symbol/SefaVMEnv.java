@@ -1,5 +1,6 @@
 package cn.sefa.symbol;
 
+import cn.sefa.vm.Code;
 import cn.sefa.vm.HeapMemory;
 import cn.sefa.vm.SefaVM;
 
@@ -17,12 +18,9 @@ public class SefaVMEnv extends ResizableArrayEnv implements HeapMemory {
 		code = new Code(svm) ;
 	}
 	
-	public SefaVM getStoneVm(){
+	@Override
+	public SefaVM sefaVM(){
 		return this.svm ;
-	}
-	
-	public Code getCode(){
-		return this.code;
 	}
 	
 	@Override
@@ -33,6 +31,10 @@ public class SefaVMEnv extends ResizableArrayEnv implements HeapMemory {
 	@Override
 	public void write(int addr, Object v) {
 		values[addr] = v ;
+	}
+	@Override
+	public Code code(){
+		return this.code;
 	}
 
 }

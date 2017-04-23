@@ -19,16 +19,7 @@ public class VMFunction extends Function{
 		this.entry = entry ;
 	}
 	
-	
 	public int entry() {
 		return this.entry;
 	}
-
-	
-	
-	public ParameterList getParams() {
-		
-		return null;
-	}
-
 }
