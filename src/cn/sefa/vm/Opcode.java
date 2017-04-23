@@ -20,6 +20,7 @@ public class Opcode {
 	 */
 	public static final byte MOVE = 4;
 	/*
+	 * GMOVE src dest
 	 * reg to heap
 	 * heap to reg 
 	 * 

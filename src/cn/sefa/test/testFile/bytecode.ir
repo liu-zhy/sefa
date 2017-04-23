@@ -1,0 +1,18 @@
+save 2
+move 0(7) reg0(null)
+move 1(9) reg1(null)
+more reg0(7) reg1(9)
+ifzero reg0(0) 10
+move 1(9) reg0(0)
+move reg0(9) 0(7)
+restore 2
+ret
+save 2
+move 0(7) reg0(null)
+move 1(9) reg1(null)
+more reg0(7) reg1(9)
+ifzero reg0(0) 10
+move 0(7) reg0(0)
+move reg0(7) 0(7)
+restore 2
+ret

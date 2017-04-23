@@ -31,7 +31,6 @@ public class IfStmt extends ASTList {
 	
 	@Override
 	public String toString(){
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append("(if"+getCondition() + " " + getThenBlock());
 		if(getElseBolck() !=null){
@@ -56,7 +55,6 @@ public class IfStmt extends ASTList {
 		else{
 			throw new SefaException("condition is not the type of bool", this);
 		}
-		
 		return res ;
 	}
 	

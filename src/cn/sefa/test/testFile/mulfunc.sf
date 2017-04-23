@@ -1,0 +1,20 @@
+def max(x , y){
+    if(x>y){
+        x
+    }
+    else{
+        y;
+    }
+}
+
+def min(x,y){
+    if(x>y){
+        y
+    }else{
+        x;
+    }
+}
+
+x = 7
+y = 9
+print("max="+max(x,y)+","+"min="+min(x,y)+"\n")
