@@ -77,5 +77,13 @@ public class ASTLeaf extends ASTree {
 		throw new SefaException("compile error in IdLeaf");
 	}
 
+	@Override
+	public void setBegin(Code c, int pos) {
+	}
+
+	@Override
+	public void setEnd(Code c, int pos) {
+	}
+
 	
 }

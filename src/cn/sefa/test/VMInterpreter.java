@@ -53,6 +53,30 @@ public class VMInterpreter {
 		runTest(lexer,true);
 	}
 	
+	@Test
+	public void test6() throws Exception{
+		Lexer lexer = getLexer("break.sf");
+		runTest(lexer,true);
+	}
+	
+	@Test
+	public void test7() throws Exception{
+		Lexer lexer = getLexer("funcInFunc.sf");
+		runTest(lexer,true);
+	}
+	
+	@Test
+	public void test8() throws Exception{
+		Lexer lexer = getLexer("mulWhile.sf");
+		runTest(lexer,true);
+	}
+	
+	@Test
+	public void test9() throws Exception{
+		Lexer lexer = getLexer("whileInFunc.sf");
+		runTest(lexer,false);
+	}
+	
 	public static Lexer getLexer(String name) throws FileNotFoundException {
 		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));
@@ -70,8 +94,10 @@ public class VMInterpreter {
 			}
 			ASTree t =bp.parse(lexer);
 			t.lookup(env.getSymbols());
-			if(isDebug)
+			if(isDebug){
 				System.out.println("->>"+t.eval(env));
+				Debug.printCode(env.code(), env.sefaVM());
+			}
 			else
 				t.eval(env);
 		}

@@ -25,7 +25,6 @@ public class Leaf extends Element {
 						
 	@Override
 	public void parse(Lexer lexer, List<ASTree> res) throws ParseException {
-		
 		Token t = lexer.read();
 		if(t.isIdentifier()){
 			for(String token : tokens){
@@ -40,7 +39,6 @@ public class Leaf extends Element {
 		}
 		else 
 			throw new ParseException(t);
-		
 	}
 	
 	public void addLeaf(List<ASTree> res, Token t) {
@@ -59,5 +57,4 @@ public class Leaf extends Element {
 		}
 		return false;
 	}
-
 }

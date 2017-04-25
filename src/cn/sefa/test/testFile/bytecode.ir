@@ -1,18 +1,116 @@
-save 2
-move 0(7) reg0(null)
-move 1(9) reg1(null)
-more reg0(7) reg1(9)
+save 1
+loadb 0 reg0
+move reg0(0) 0(null)
+loadb 0 reg0
+move 0(0) reg1(null)
+move 0(0) reg2(null)
+equal reg1(0) reg2(0)
+ifzero reg1(1) 111
+move 0(0) reg0(0)
+loadb 10 reg1
+equal reg0(0) reg1(10)
 ifzero reg0(0) 10
-move 1(9) reg0(0)
-move reg0(9) 0(7)
-restore 2
-ret
-save 2
-move 0(7) reg0(null)
-move 1(9) reg1(null)
-more reg0(7) reg1(9)
+loadb 0 reg0
+move 0(0) reg0(0)
+loadb 2 reg1
+rem reg0(0) reg1(2)
+loadb 0 reg1
+equal reg0(0) reg1(0)
+ifzero reg0(1) 22
+move 0(0) reg0(1)
+loadb 2 reg1
+add reg0(0) reg1(2)
+move reg0(2) 0(0)
+goto -66
+move 0(2) reg1(2)
+move 0(2) reg2(0)
+equal reg1(2) reg2(2)
+ifzero reg1(1) 111
+move 0(2) reg0(2)
+loadb 10 reg1
+equal reg0(2) reg1(10)
 ifzero reg0(0) 10
-move 0(7) reg0(0)
-move reg0(7) 0(7)
-restore 2
+loadb 0 reg0
+move 0(2) reg0(0)
+loadb 2 reg1
+rem reg0(2) reg1(2)
+loadb 0 reg1
+equal reg0(0) reg1(0)
+ifzero reg0(1) 22
+move 0(2) reg0(1)
+loadb 2 reg1
+add reg0(2) reg1(2)
+move reg0(4) 0(2)
+goto -66
+move 0(4) reg1(2)
+move 0(4) reg2(2)
+equal reg1(4) reg2(4)
+ifzero reg1(1) 111
+move 0(4) reg0(4)
+loadb 10 reg1
+equal reg0(4) reg1(10)
+ifzero reg0(0) 10
+loadb 0 reg0
+move 0(4) reg0(0)
+loadb 2 reg1
+rem reg0(4) reg1(2)
+loadb 0 reg1
+equal reg0(0) reg1(0)
+ifzero reg0(1) 22
+move 0(4) reg0(1)
+loadb 2 reg1
+add reg0(4) reg1(2)
+move reg0(6) 0(4)
+goto -66
+move 0(6) reg1(2)
+move 0(6) reg2(4)
+equal reg1(6) reg2(6)
+ifzero reg1(1) 111
+move 0(6) reg0(6)
+loadb 10 reg1
+equal reg0(6) reg1(10)
+ifzero reg0(0) 10
+loadb 0 reg0
+move 0(6) reg0(0)
+loadb 2 reg1
+rem reg0(6) reg1(2)
+loadb 0 reg1
+equal reg0(0) reg1(0)
+ifzero reg0(1) 22
+move 0(6) reg0(1)
+loadb 2 reg1
+add reg0(6) reg1(2)
+move reg0(8) 0(6)
+goto -66
+move 0(8) reg1(2)
+move 0(8) reg2(6)
+equal reg1(8) reg2(8)
+ifzero reg1(1) 111
+move 0(8) reg0(8)
+loadb 10 reg1
+equal reg0(8) reg1(10)
+ifzero reg0(0) 10
+loadb 0 reg0
+move 0(8) reg0(0)
+loadb 2 reg1
+rem reg0(8) reg1(2)
+loadb 0 reg1
+equal reg0(0) reg1(0)
+ifzero reg0(1) 22
+move 0(8) reg0(1)
+loadb 2 reg1
+add reg0(8) reg1(2)
+move reg0(10) 0(8)
+goto -66
+move 0(10) reg1(2)
+move 0(10) reg2(8)
+equal reg1(10) reg2(10)
+ifzero reg1(1) 111
+move 0(10) reg0(10)
+loadb 10 reg1
+equal reg0(10) reg1(10)
+ifzero reg0(1) 10
+goto 94
+move reg0(1) 0(10)
+restore 1
 ret

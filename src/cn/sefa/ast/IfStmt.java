@@ -47,9 +47,15 @@ public class IfStmt extends ASTList {
 		if(cond instanceof Boolean){
 			if((boolean)cond){
 				res = getThenBlock().eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
 			}
 			else{
+				if(getElseBolck() == null)
+					return res ;
 				res = getElseBolck().eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
 			}
 		}
 		else{
@@ -61,7 +67,7 @@ public class IfStmt extends ASTList {
 	@Override
 	public void compile(Code c){
 		getCondition().compile(c);
-		int pos = c.position();
+		int begin = c.position();
 		c.add(Opcode.IFZERO);
 		c.add(Opcode.encodeRegister(--c.nextReg));
 		c.add(Opcode.encodeShortOffset(0));
@@ -70,7 +76,7 @@ public class IfStmt extends ASTList {
 		int elsePos = c.position();
 		c.add(Opcode.GOTO);
 		c.add(Opcode.encodeShortOffset(0));
-		c.set(Opcode.encodeShortOffset(c.position()-pos),pos+2);
+		c.set(Opcode.encodeShortOffset(c.position()-begin),begin+2);
 		ASTree elze = getElseBolck();
 		c.nextReg = oldReg;
 		if(elze != null )
@@ -83,4 +89,17 @@ public class IfStmt extends ASTList {
 		c.set(Opcode.encodeShortOffset(c.position()-elsePos) , elsePos+1);
 	}
 	
+	@Override
+	public void setBegin(Code c , int pos){
+			this.getThenBlock().setBegin(c, pos);
+			if(this.getElseBolck() != null)
+				this.getElseBolck().setBegin(c, pos);
+	}
+	
+	@Override
+	public void setEnd(Code c, int pos){
+		this.getThenBlock().setEnd(c, pos);
+		if(this.getElseBolck() != null)
+			this.getElseBolck().setEnd(c, pos);
+	}
 }

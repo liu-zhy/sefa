@@ -74,11 +74,27 @@ public class ASTList extends ASTree {
 		
 	}
 	
+	@Override
 	public void compile(Code c){
 		for(ASTree t : this){
 			t.compile(c);
 		}
 	}
+	
+	@Override
+	public void setBegin(Code c ,int pos){
+		for(ASTree t : this){
+			t.setBegin(c,pos);
+		}
+	}
+	
+	@Override
+	public void setEnd(Code c,int pos){
+		for(ASTree t : this){
+			t.setEnd(c,pos);
+		}
+	}
+	
 	@Override
 	public Iterator<ASTree> iterator() {
 		

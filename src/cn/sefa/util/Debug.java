@@ -85,17 +85,17 @@ public class Debug {
 		while(i<len){
 			switch(codes[i]){
 			case Opcode.LOADI :{
-				System.out.println("loadi "+readInt(codes,i+1)+" reg"+Opcode.decodeRegister(codes[i+5]));
+				System.out.print("loadi "+readInt(codes,i+1)+" reg"+Opcode.decodeRegister(codes[i+5]));
 				i += 6 ;
 				break ;
 			}
 			case Opcode.LOADB :{
-				System.out.println("loadb "+readShort(codes,i+1)+" reg"+Opcode.decodeRegister(codes[i+2]));
+				System.out.print("loadb "+codes[i+1]+" reg"+Opcode.decodeRegister(codes[i+2]));
 				i += 3;
 				break ;
 			}
 			case Opcode.LOADS:{
-				System.out.println("loads reg"+Opcode.decodeRegister(codes[i+3])+" "+svm.getStrings()[readShort(codes, i)]);
+				System.out.print("loads reg"+Opcode.decodeRegister(codes[i+3])+" "+svm.getStrings()[readShort(codes, i)]);
 				i+=4;
 				break ;
 			}
@@ -105,19 +105,14 @@ public class Debug {
 				break; 
 			}
 			case Opcode.GMOVE:{
-				/*
-				 * src and dest are not all register or heap
-				 * src is register ,meanwhile dest is heap , or the opposite.
-				 */
 				gmove(i,svm);
 				i+=4;
 				break ;
 			}
 			case Opcode.IFZERO :{
-				System.out.println("ifzero "
-							+svm.getRegisters()[Opcode.decodeRegister(codes[i+1])]
-									+"("+svm.getRegisters()[Opcode.decodeRegister(codes[i+1])]+") "
-										+readShort(codes, i+2));
+				System.out.print("ifzero reg"
+							+Opcode.decodeRegister(codes[i+1])+" "
+							+readShort(codes, i+2));
 				i += 4 ;
 				break ;
 			}
@@ -129,34 +124,36 @@ public class Debug {
 				else{
 					i += 4 ;
 				}*/
+				System.out.println("ifnozero "+readShort(codes, i+1));
 				break ;
 			}
 			case Opcode.GOTO:{
-				System.out.println("goto "+readShort(codes,i+1));
+				System.out.print("goto "+readShort(codes,i+1));
 				i+=3;
 				break ;
 			}
 			case Opcode.CALL:{
-				System.out.println("call "+svm.getRegisters()[Opcode.decodeRegister(codes[i+1])]);
+				System.out.print("call "+svm.getRegisters()[Opcode.decodeRegister(codes[i+1])]);
 				i+=3;
 				break ;
 			}
 			case Opcode.RETURN:{
-				System.out.println("ret");
+				System.out.print("ret");
 				i+=1;
 				break ;
 			}
 			case Opcode.SAVE :{
-				System.out.println("save "+codes[i+1]);
+				System.out.print("save "+codes[i+1]);
 				i+=2;
 				break;
 			}
 			case Opcode.RESTORE:{
-				System.out.println("restore "+codes[i+1]);
+				System.out.print("restore "+codes[i+1]);
 				i += 2 ;
 				break ;
 			}
 			case Opcode.NEG :{
+				System.out.print("neg reg"+Opcode.decodeRegister(codes[i]));
 				i += 2 ;
 				break ;
 			}
@@ -173,6 +170,7 @@ public class Debug {
 			}
 			
 			}
+			System.out.println("");
 		}
 	}
 	
@@ -227,7 +225,7 @@ public class Debug {
 		}
 		sb.append("reg"+Opcode.decodeRegister(code[pc+1])+" ");
 		sb.append("reg"+Opcode.decodeRegister(code[pc+2])+" ");
-		System.out.println(sb.toString());
+		System.out.print(sb.toString());
 	}
 
 
@@ -254,19 +252,19 @@ private static void move(int srcAddr , int destAddr , SefaVM svm) {
 		Object value;
 		System.out.print("move ");
 		if(Opcode.isRegister(src)){
-			System.out.print(registers[Opcode.decodeRegister(src)]+" ") ; 
+			System.out.print("reg"+Opcode.decodeRegister(src)+" ") ; 
 		}
 		else if(Opcode.isOffset(src)){
-			System.out.print(stack[svm.fp+Opcode.decodeOffset(src)]+" ") ;
+			System.out.print(Opcode.decodeOffset(src)+" ") ;
 		}
 		else{
 			throw new SefaVMException("the instruction of move decode failure.");
 		}
 		if(Opcode.isRegister(dest)){
-			System.out.print(registers[Opcode.decodeRegister(dest)]+"\n") ; 
+			System.out.print("reg"+Opcode.decodeRegister(dest)) ; 
 		}
 		else if(Opcode.isOffset(dest)){
-			System.out.print(stack[svm.fp+Opcode.decodeOffset(dest)]+"\n") ;
+			System.out.print(Opcode.decodeOffset(dest)) ;
 		}
 		else{
 			throw new SefaVMException("the instruction of move decode failure.");
@@ -278,14 +276,13 @@ private static void move(int srcAddr , int destAddr , SefaVM svm) {
 		byte[] code = svm.getCode();
 		Object[] registers = svm.getRegisters();
 		Object[] stack = svm.getStack();
-		
 		if(Opcode.isRegister(code[pc+1])){
-			if(Opcode.isRegister(code[pc+1])){
-				System.out.println("gmove "+"reg"+readShort(code, pc+2)+" "+Opcode.decodeRegister(code[pc+1]));
-			}
-			else{
-				System.out.println("gmove "+"reg"+Opcode.decodeRegister(code[pc+1])+" "+svm.getHeap().read(readShort(code, pc+1)));
-			}
+			System.out.print("gmove "+"reg"+
+					Opcode.decodeRegister(code[pc+1])+" "+readShort(code, pc+2)+" ");
+		}
+		else{
+			int addr = Opcode.decodeRegister(code[pc+3]);
+			System.out.print("gmove "+readShort(code, pc+1)+" reg"+addr);
 		}
 	}
 }

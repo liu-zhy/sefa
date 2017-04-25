@@ -20,13 +20,19 @@ public class BlockStmt extends ASTList {
 	public Object eval(IEnvironment env){
 		Object res = 0 ;
 		for(ASTree t : children){
-			if(!(t instanceof NullStmt))
+			if(!(t instanceof NullStmt)){
+				if(t instanceof Break)
+					return t;
+				else if( t instanceof Continue)
+					return t;
 				res = t.eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
+			}
 		}
 		return res;
 	}
 	
-	@Override
 	public void compile(Code c){
 		if(this.numOfChildren() > 0){
 			int initReg = c.nextReg;
@@ -42,4 +48,16 @@ public class BlockStmt extends ASTList {
 		}
 	}
 	
+	public void setBegin(Code c ,int pos){
+		for(ASTree t : this){
+			t.setBegin(c , pos);
+		}
+	}
+	
+	@Override
+	public void setEnd(Code c ,int pos){
+		for(ASTree t : this){
+			t.setEnd(c ,pos);
+		}
+	}
 }

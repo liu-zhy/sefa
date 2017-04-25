@@ -1,0 +1,16 @@
+n = 10
+while n>0 {
+    if n%2==0 {
+        n = n-1
+        print("n is even\n")
+        continue
+    }
+    else{
+        if n == 3{
+            break
+        } 
+    }
+    n = n-1
+}
+
+print("n="+n+"\n")

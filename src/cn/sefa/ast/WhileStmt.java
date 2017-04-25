@@ -42,6 +42,8 @@ public class WhileStmt extends ASTList {
 			ASTree block = getBody() ;
 			while((boolean)cond){
 				res = block.eval(env);
+				if(res instanceof Break)
+					return 0;
 				cond = t.eval(env);
 			}
 		}
@@ -70,6 +72,17 @@ public class WhileStmt extends ASTList {
 		c.add(Opcode.GOTO);
 		c.add(Opcode.encodeShortOffset(begin-endPos));
 		c.set(Opcode.encodeShortOffset(c.position()-condOffset),condOffset+2);
+		getBody().setBegin(c ,begin);
+		getBody().setEnd(c ,c.position());
 	}
 	
+	@Override 
+	public void setBegin(Code c , int pos){
+//		getBody().setBegin(c, pos);
+	}
+	
+	@Override 
+	public void setEnd(Code c , int pos){
+//		getBody().setEnd(c, pos);
+	}
 }

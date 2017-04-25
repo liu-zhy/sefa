@@ -8,9 +8,11 @@ import cn.sefa.ast.ArrayLiteral;
 import cn.sefa.ast.ArrayRef;
 import cn.sefa.ast.BinaryExpr;
 import cn.sefa.ast.BlockStmt;
+import cn.sefa.ast.Break;
 import cn.sefa.ast.ClassBody;
 import cn.sefa.ast.ClassStmt;
 import cn.sefa.ast.Closure;
+import cn.sefa.ast.Continue;
 import cn.sefa.ast.Dot;
 import cn.sefa.ast.FuncStmt;
 import cn.sefa.ast.IfStmt;
@@ -31,18 +33,25 @@ import cn.sefa.lexer.Token;
 public class BasicParser {
 
 	HashSet<String> reserved = new HashSet<String>() ;
+	
 	Operators operators = Operators.getInstance();
+	
 	Parser expr0 = Parser.rule() ;
-	Parser args = Parser.rule(Arguments.class).ast(expr0).repeat(Parser.rule().sep(",").ast(expr0));
+	
+	Parser args = Parser.rule(Arguments.class).ast(expr0)
+			.repeat(Parser.rule().sep(",").ast(expr0));
+	
 	Parser elements = Parser.rule(ArrayLiteral.class).ast(expr0)
 			.repeat(Parser.rule().sep(",").ast(expr0)) ;
+	
 	Parser postfix = Parser.rule().or(Parser.rule(Dot.class).sep(".").identifier(reserved),
 			Parser.rule().sep("(").maybe(args).sep(")"),
 			Parser.rule(ArrayRef.class).sep("[").maybe(expr0).sep("]")) ;
 	
 	Parser param = Parser.rule().identifier(reserved);
 	
-	Parser params = Parser.rule(ParameterList.class).ast(param).repeat(Parser.rule().sep(",").ast(param)) ;
+	Parser params = Parser.rule(ParameterList.class).ast(param)
+			.repeat(Parser.rule().sep(",").ast(param)) ;
 	
 	Parser ParamList = Parser.rule().sep("(").maybe(params).sep(")");
 	
@@ -50,8 +59,8 @@ public class BasicParser {
 	
 	Parser block = Parser.rule(BlockStmt.class)
 			.sep("{").option(statement0)
-			.repeat(Parser.rule().sep(";",Token.EOL).option(statement0))
-			.sep("}");
+			.repeat(Parser.rule().repeat(Parser.rule().sep(";",Token.EOL)).option(statement0))
+			.sep("}").repeat(Parser.rule().sep(Token.EOL));
 	
 	Parser primary = Parser.rule(PrimaryExpr.class)
 			.or(Parser.rule().sep("(").ast(expr0).sep(")") ,
@@ -67,7 +76,6 @@ public class BasicParser {
 					 Parser.rule().string())
 					.repeat(postfix);
 			
-	
 	Parser factor = Parser.rule().or(Parser.rule(NegativeExpr.class).sep("-").ast(primary)
 			,primary) ;
 	
@@ -76,12 +84,14 @@ public class BasicParser {
 	Parser function = Parser.rule(FuncStmt.class).sep("def")
 			.identifier(reserved).ast(ParamList).ast(block);
 
-	Parser statement = statement0.or(Parser.rule(IfStmt.class)
-			.sep("if").ast(expr).ast(block)
-			.option(Parser.rule().option(Parser.rule().sep(";",Token.EOL))
-					.sep("else").ast(block)),
-			Parser.rule(WhileStmt.class).sep("while").ast(expr).ast(block)	,
-			expr);
+	Parser control = Parser.rule().or(Parser.rule().control(Break.class),
+			Parser.rule().control(Continue.class));	
+	
+	Parser statement = statement0.or(Parser.rule(WhileStmt.class).sep("while").ast(expr).ast(block),
+			Parser.rule(IfStmt.class).sep("if").ast(expr).ast(block)
+			.option(Parser.rule().sep("else").ast(block)),
+			expr,
+			control);
 	
 	Parser member = Parser.rule().or(function,expr).repeat(Parser.rule().sep(";",Token.EOL)) ;
 	
@@ -106,8 +116,11 @@ public class BasicParser {
 		reserved.add("true");
 		reserved.add("false");
 		reserved.add("closure");
+		reserved.add("break");
+		reserved.add("continue");
+		reserved.add("while");
+		reserved.add("if");
 		reserved.add(Token.EOL);
-		
 		operators.add("=",1,Operators.RIGHT);
 		operators.add("||",1,Operators.LEFT);
 		operators.add("&&",2,Operators.LEFT);
@@ -121,11 +134,8 @@ public class BasicParser {
 		operators.add("*",5,Operators.LEFT);
 		operators.add("/",5,Operators.LEFT);
 		operators.add("%",5,Operators.LEFT);
-		
-		
 	}
 	public ASTree parse(Lexer lexer) throws ParseException{
 		return program.parse(lexer);
 	}
-	
 }

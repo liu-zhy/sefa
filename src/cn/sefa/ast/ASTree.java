@@ -22,4 +22,6 @@ public abstract class ASTree implements Iterable<ASTree> {
 	public abstract Object eval(IEnvironment env);
 	public abstract void lookup(Symbols sym	);
 	public abstract void compile(Code c);
+	public abstract void setBegin(Code c ,int pos) ;
+	public abstract void setEnd(Code c ,int pos);
 }
