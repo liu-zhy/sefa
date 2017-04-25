@@ -77,6 +77,12 @@ public class VMInterpreter {
 		runTest(lexer,false);
 	}
 	
+	@Test
+	public void test10() throws Exception{
+		Lexer lexer = getLexer("mulWhileInFunc.sf");
+		runTest(lexer,false);
+	}
+	
 	public static Lexer getLexer(String name) throws FileNotFoundException {
 		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));

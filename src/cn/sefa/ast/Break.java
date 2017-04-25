@@ -12,7 +12,8 @@ import cn.sefa.vm.Opcode;
  */
 public class Break extends ASTLeaf {
 
-	int posOfBreak ;
+	int posOfBreak = -1;
+	
 	public Break(Token t) {
 		super(t);
 	}
@@ -36,6 +37,9 @@ public class Break extends ASTLeaf {
 	
 	@Override 
 	public void setEnd(Code c ,int pos){
+		if(posOfBreak == -1){
+			throw new SefaException("cannot break",this);
+		}
 		c.set(Opcode.encodeShortOffset(pos-posOfBreak) ,posOfBreak+1);
 	}
 }

@@ -13,4 +13,20 @@ def func(){
     } 
 }
 
+def cf(){
+    print("cf continue\n");
+    i = 1
+//    continue
+    i=2
+}
+
+def bf(){
+    print("bf break\n");
+    i=3
+    break
+    i = 4
+}
+
 func()
+print(cf()+"\n")
+print(bf()+"\n")

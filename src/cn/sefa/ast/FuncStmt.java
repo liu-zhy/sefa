@@ -84,6 +84,7 @@ public class FuncStmt extends ASTList {
 		getBody().compile(c);
 		/*
 		 * what does that mean?
+		 * no meaning!
 		 */
 		c.add(Opcode.MOVE);
 		c.add(Opcode.encodeRegister(c.nextReg-1));
@@ -91,7 +92,12 @@ public class FuncStmt extends ASTList {
 		c.add(Opcode.RESTORE);
 		c.add(Opcode.encodeByteOffset(size));
 		c.add(Opcode.RETURN);
+		
+		getBody().setBegin(c, -1);
+		getBody().setEnd(c, c.position()-6);
+		
 	}
+	
 	
 	
 }
