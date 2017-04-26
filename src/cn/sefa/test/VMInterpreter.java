@@ -83,6 +83,18 @@ public class VMInterpreter {
 		runTest(lexer,false);
 	}
 	
+	@Test
+	public void test11() throws Exception{
+		Lexer lexer = getLexer("array1.sf");
+		runTest(lexer,false);
+	}
+	
+	@Test
+	public void test12() throws Exception{
+		Lexer lexer = getLexer("arrInFunc.sf");
+		runTest(lexer,false);
+	}
+	
 	public static Lexer getLexer(String name) throws FileNotFoundException {
 		File file = new File("src/cn/sefa/test/testFile/"+name);
 		Reader reader = new InputStreamReader(new FileInputStream(file));

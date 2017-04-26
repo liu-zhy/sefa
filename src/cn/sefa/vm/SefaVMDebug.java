@@ -231,6 +231,39 @@ public class SefaVMDebug extends SefaVM{
 			pc += 2 ;
 			break ;
 		}
+		case Opcode.ARRAYR :{
+			int reg1 = Opcode.decodeRegister(code[pc+1]);
+			int reg2 = Opcode.decodeRegister(code[pc+2]);
+			try {
+				writer.write("arrayr reg"+reg1+"("+registers[reg1]+")"
+						+ " reg"+reg2+"("+registers[reg2]+")");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			readArray();
+			pc+=3;
+			break ;
+		}
+		case Opcode.ARRAYW:{
+			if(!(Opcode.isRegister(code[pc+1]) 
+					&& Opcode.isRegister(code[pc+2])
+					&& Opcode.isRegister(code[pc+3]))){
+				throw new SefaVMException("cannot find the register(s) in ARRAYW");
+			}
+			int addr1 = Opcode.decodeRegister(code[pc+1]);
+			int addr2 = Opcode.decodeRegister(code[pc+2]);
+			int addr3 = Opcode.decodeRegister(code[pc+3]);
+			try {
+				writer.write("arrayw reg"+addr1+"("+registers[addr1]+")"
+				+" reg"+addr2+"("+registers[addr2]+")"
+				+" reg"+addr3+"("+registers[addr3]+")");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			writeInArray();
+			pc += 4;
+			break ;
+		}
 		default :{
 			if(code[pc]>Opcode.LEQ){
 				throw new SefaVMException("the code of instructions is incorrect.");
@@ -243,13 +276,28 @@ public class SefaVMDebug extends SefaVM{
 				}
 			}
 			break ;
-			
 		}
 		}
 		try {
 			writer.write("\n");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void writeInArray() {
+		if(Opcode.isRegister(code[pc+1]) 
+				&& Opcode.isRegister(code[pc+2])
+				&& Opcode.isRegister(code[pc+3])){
+			int addr1 = Opcode.decodeRegister(code[pc+1]);
+			int addr2 = Opcode.decodeRegister(code[pc+2]);
+			int addr3 = Opcode.decodeRegister(code[pc+3]);
+			if(registers[addr1] instanceof ArrayList<?>
+					&& registers[addr2] instanceof Integer){
+				ArrayList<Object> array = (ArrayList<Object>) registers[addr1];
+				int index = (int) registers[addr2];
+				array.set(index, registers[addr3]);
+			}
 		}
 	}
 
@@ -453,5 +501,21 @@ public class SefaVMDebug extends SefaVM{
 		}
 		writer.write(sb.toString());
 		pc += 3 ;
+	}
+	
+	private void readArray() {
+		if(Opcode.isRegister(code[pc+1]) && Opcode.isRegister(code[pc+2])){
+			Object arrObj = registers[Opcode.decodeRegister(code[pc+1])];
+			Object indexObj = registers[Opcode.decodeRegister(code[pc+2])];
+			if(arrObj instanceof ArrayList<?> && indexObj instanceof Integer){
+				registers[Opcode.decodeRegister(code[pc+1])] = ((ArrayList<Object>)arrObj).get((Integer)indexObj) ;
+			}
+			else{
+				throw new SefaVMException("Not a array type or Not a integral index. ");
+			}
+		}
+		else{
+			throw new SefaVMException("The instruction of array is unreasonable. ");
+		}
 	}
 }

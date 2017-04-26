@@ -1,0 +1,38 @@
+save 3
+gmove <native function :2117255219> reg0(null)
+loads reg1 null
+move 0([1, 2, [4, 5, 6], 7, 8]) reg2(null)
+move 1(1) reg3(null)
+arrayr reg2([1, 2, [4, 5, 6], 7, 8]) reg3(1)
+add reg1(before modifying a[index]=2)reg2(2)
+loads reg2 null
+add reg1(before modifying a[index]=2
+)reg2(
+)
+move reg1(before modifying a[index]=2
+) 13(null)
+call <native function :2117255219>
+move 13(0) reg0(<native function :2117255219>)
+move 0([1, 2, [4, 5, 6], 7, 8]) reg0(0)
+move 1(1) reg1(before modifying a[index]=2
+)
+move 2(100) reg2(
+)
+arrayw reg0([1, 2, [4, 5, 6], 7, 8]) reg1(1) reg2(100)
+gmove <native function :2117255219> reg0([1, 100, [4, 5, 6], 7, 8])
+loads reg1 null
+move 0([1, 100, [4, 5, 6], 7, 8]) reg2(100)
+move 1(1) reg3(1)
+arrayr reg2([1, 100, [4, 5, 6], 7, 8]) reg3(1)
+add reg1(modified successfully: a[index]=100)reg2(100)
+loads reg2 null
+add reg1(modified successfully: a[index]=100
+)reg2(
+)
+move reg1(modified successfully: a[index]=100
+) 13(0)
+call <native function :2117255219>
+move 13(0) reg0(<native function :2117255219>)
+move reg0(0) 0([1, 100, [4, 5, 6], 7, 8])
+restore 3
+ret

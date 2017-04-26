@@ -5,7 +5,9 @@ import cn.sefa.exception.SefaException;
 /**
  * @author Lionel
  *
+ *
  */
+
 public class Opcode {
 	
 	public static final byte LOADI = 1; //load an integer
@@ -33,17 +35,19 @@ public class Opcode {
 	public static final byte RETURN = 10;
 	public static final byte SAVE = 11;	   //save all value of register to stack
 	public static final byte RESTORE = 12; //restore the value of all registers from stack
-	public static final byte ADD = 13;
-	public static final byte SUB = 14;
-	public static final byte MUL = 15;
-	public static final byte DIV = 16;
-	public static final byte REM = 17;	//remainder
-	public static final byte NEG = 18;
-	public static final byte EQUAL = 19 ;
-	public static final byte MORE = 20 ;
-	public static final byte LESS = 21 ;//
-	public static final byte MEQ = 22 ;  //more or euqal
-	public static final byte LEQ = 23 ; //less or equal
+	public static final byte ARRAYR = 13; //get the element of array
+	public static final byte ARRAYW = 14;
+	public static final byte ADD = 15;
+	public static final byte SUB = 16;
+	public static final byte MUL = 17;
+	public static final byte DIV = 18;
+	public static final byte REM = 19;	//remainder
+	public static final byte NEG = 20;
+	public static final byte EQUAL = 21 ;
+	public static final byte MORE = 22 ;
+	public static final byte LESS = 23 ;//
+	public static final byte MEQ = 24 ;  //more or euqal
+	public static final byte LEQ = 25 ; //less or equal
 	
 	public static byte encodeRegister(int reg){
 		if(reg>SefaVM.NUM_OF_REG)

@@ -49,5 +49,9 @@ public class OtherTest {
 		
 	}
 	
+	@Test
+	public void test5(){
+		System.out.println(Color.values()[1]);
+	}
 	
 }

@@ -50,7 +50,7 @@ public class PrimaryExpr extends ASTList {
 		compileSubExpr(c,0);
 	}
 
-	private void compileSubExpr(Code c, int nest) {
+	public void compileSubExpr(Code c, int nest) {
 		if(hasPostfix(nest)){
 			compileSubExpr(c,nest+1);
 			postfix(nest).compile(c);

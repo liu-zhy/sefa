@@ -1,10 +1,10 @@
 a = [2,3,4]
 print(a[1])
 a[1] = "three"
-print("a[1] :"+a[1])
+print("a[1] :"+a[1]+"\n")
 b = [["one",1],["two",2]]
-print(b[1][0]+":"+b[1][1])
+print(b[1][0]+":"+b[1][1]+"\n")
 b[3] = "Hello"
 b[100] = "WOrld"
 print(b[100])
-print("the length of b = "+length(b))
+print("the length of b = "+length(b)+"\n")

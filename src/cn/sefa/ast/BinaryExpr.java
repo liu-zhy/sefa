@@ -1,5 +1,6 @@
 package cn.sefa.ast;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,6 +183,16 @@ public class BinaryExpr extends ASTList {
 				getRight().compile(c);
 				((IdLeaf) lval).compileAssign(c);
 			}
+			else if(lval instanceof PrimaryExpr){
+				((PrimaryExpr)lval).compileSubExpr(c,1);
+				((ArrayRef)((PrimaryExpr) lval).postfix(0)).getIndex().compile(c);
+				getRight().compile(c);
+				c.add(Opcode.ARRAYW);
+				c.add(Opcode.encodeRegister(c.nextReg-3));
+				c.add(Opcode.encodeRegister(c.nextReg-2));
+				c.add(Opcode.encodeRegister(c.nextReg-1));
+				c.nextReg -= 3;
+			}
 			else{
 				throw new SefaException(" there is an error in assignment. ");
 			}
@@ -198,7 +209,6 @@ public class BinaryExpr extends ASTList {
 	}
 
 	private byte getOpcode(String op) {
-		
 		switch(op){
 		case "+": return Opcode.ADD;
 		case "-": return Opcode.SUB;
@@ -214,6 +224,4 @@ public class BinaryExpr extends ASTList {
 		}
 		
 	}
-	
-	
 }

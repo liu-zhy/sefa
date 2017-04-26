@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 
 import cn.sefa.ast.ASTree;
 import cn.sefa.exception.ParseException;
@@ -157,6 +158,18 @@ public class Debug {
 				i += 2 ;
 				break ;
 			}
+			case Opcode.ARRAYR:{
+				System.out.print("arrayr reg"+Opcode.decodeRegister(codes[i+1])+" reg"+Opcode.decodeRegister(codes[i+2]));
+				i+=3;
+				break;
+			}
+			case Opcode.ARRAYW:{
+				System.out.print("arrayw reg"+Opcode.decodeRegister(codes[i+1])
+					+" reg"+Opcode.decodeRegister(codes[i+2])
+					+" reg"+Opcode.decodeRegister(codes[i+3]));
+				i+=4;
+				break;
+			}
 			default :{
 				if(codes[i]>Opcode.LEQ){
 					throw new SefaVMException("the code of instructions is incorrect.");
@@ -166,7 +179,6 @@ public class Debug {
 				}
 				i+=3;
 				break ;
-				
 			}
 			
 			}

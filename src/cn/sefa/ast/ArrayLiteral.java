@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
 
 /**
  * @author Lionel
@@ -16,7 +17,6 @@ public class ArrayLiteral extends ASTList {
 	}
 
 	public ArrayList<Object> eval(IEnvironment env){
-		
 		ArrayList<Object> res = new ArrayList<Object>() ;
 		for(ASTree t : children){
 			res.add(t.eval(env)) ;
@@ -24,5 +24,5 @@ public class ArrayLiteral extends ASTList {
 		
 		return res;
 	}
-	
+
 }

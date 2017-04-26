@@ -1,10 +1,5 @@
 package cn.sefa.vm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import cn.sefa.ast.ASTList;
@@ -169,6 +164,16 @@ public class SefaVM {
 			pc += 2 ;
 			break ;
 		}
+		case Opcode.ARRAYR :{
+			readInArray();
+			pc+=3;
+			break ;
+		}
+		case Opcode.ARRAYW:{
+			writeInArray();
+			pc += 4;
+			break ;
+		}
 		default :{
 			if(code[pc]>Opcode.LEQ){
 				throw new SefaVMException("the code of instructions is incorrect.");
@@ -181,6 +186,7 @@ public class SefaVM {
 		}
 		}
 	}
+
 
 	private Object readInt(byte[] mem, int i) {
 		int res = 0;
@@ -352,5 +358,37 @@ public class SefaVM {
 			registers[left] = res ;
 		}
 		pc += 3 ;
+	}
+	
+	private void readInArray() {
+		if(Opcode.isRegister(code[pc+1]) && Opcode.isRegister(code[pc+2])){
+			Object arrObj = registers[Opcode.decodeRegister(code[pc+1])];
+			Object indexObj = registers[Opcode.decodeRegister(code[pc+2])];
+			if(arrObj instanceof ArrayList<?> && indexObj instanceof Integer){
+				registers[Opcode.decodeRegister(code[pc+1])] = ((ArrayList<Object>)arrObj).get((Integer)indexObj) ;
+			}
+			else{
+				throw new SefaVMException("Not a array type or Not a integral index. ");
+			}
+		}
+		else{
+			throw new SefaVMException("The instruction of array is unreasonable. ");
+		}
+	}
+	
+	private void writeInArray() {
+		if(Opcode.isRegister(code[pc+1]) 
+				&& Opcode.isRegister(code[pc+2])
+				&& Opcode.isRegister(code[pc+3])){
+			int addr1 = Opcode.decodeRegister(code[pc+1]);
+			int addr2 = Opcode.decodeRegister(code[pc+2]);
+			int addr3 = Opcode.decodeRegister(code[pc+3]);
+			if(registers[addr1] instanceof ArrayList<?>
+					&& registers[addr2] instanceof Integer){
+				ArrayList<Object> array = (ArrayList<Object>) registers[addr1];
+				int index = (int) registers[addr2];
+				array.set(index, registers[addr3]);
+			}
+		}
 	}
 }

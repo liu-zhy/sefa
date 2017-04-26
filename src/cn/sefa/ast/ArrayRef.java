@@ -5,6 +5,8 @@ import java.util.List;
 
 import cn.sefa.exception.SefaException;
 import cn.sefa.symbol.IEnvironment;
+import cn.sefa.vm.Code;
+import cn.sefa.vm.Opcode;
 
 /**
  * @author Lionel
@@ -14,7 +16,6 @@ public class ArrayRef extends Postfix {
 
 	public ArrayRef(List<ASTree> list) {
 		super(list);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ASTree getIndex(){
@@ -23,7 +24,6 @@ public class ArrayRef extends Postfix {
 	
 	@Override
 	public Object eval(IEnvironment env, Object target) {
-		
 		if(target instanceof ArrayList<?>){
 			Object index = getIndex().eval(env);
 			if(index instanceof Integer){
@@ -35,6 +35,15 @@ public class ArrayRef extends Postfix {
 		}
 		throw new SefaException("not a array type",this) ;
 		
+	}
+	
+	@Override
+	public void compile(Code c){
+		getIndex().compile(c);
+		c.add(Opcode.ARRAYR);
+		c.add(Opcode.encodeRegister(c.nextReg-2));
+		c.add(Opcode.encodeRegister(c.nextReg-1));
+		c.nextReg-- ;
 	}
 	
 	@Override
