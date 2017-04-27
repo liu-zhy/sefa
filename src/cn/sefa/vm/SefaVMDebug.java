@@ -436,8 +436,17 @@ public class SefaVMDebug extends SefaVM{
 			sb.append("equal reg"+left+" reg"+right) ;
 		}
 		else{
-			if(!allNum)
-				throw new SefaVMException("operands are incompatible. ");
+			if(!allNum){
+				String msg ;
+				if(!(lval instanceof Integer)){
+					msg = "lval is "+lval.getClass().getName();
+				}
+				else{
+					msg = "rval is "+rval.getClass().getName();
+				}
+				throw new SefaVMException("operands are incompatible. "+msg);
+				
+			}
 			int res ;
 			int lnum = ((Integer) lval).intValue();
 			int rnum = ((Integer) rval).intValue();

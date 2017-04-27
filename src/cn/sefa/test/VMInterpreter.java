@@ -86,7 +86,7 @@ public class VMInterpreter {
 	@Test
 	public void test11() throws Exception{
 		Lexer lexer = getLexer("array1.sf");
-		runTest(lexer,false);
+		runTest(lexer,true);
 	}
 	
 	@Test
