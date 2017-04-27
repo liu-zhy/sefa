@@ -18,10 +18,7 @@ public class ClassTest {
 		
 		Lexer lexer = Debug.getLexer("class1.sf");
 		Debug.runTest(lexer);
-		
-		
 	}
-	
 	
 	@Test
 	public void test1() throws Exception{
@@ -29,5 +26,4 @@ public class ClassTest {
 		Debug.runTest(lexer,false);
 		
 	}
-
 }

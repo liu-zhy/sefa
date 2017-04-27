@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import cn.sefa.ast.Function;
 import cn.sefa.ast.IEnvironment;
 import cn.sefa.ast.NativeFunction;
 import cn.sefa.exception.SefaException;
@@ -25,6 +26,7 @@ public class Natives {
 		append(env,"length" ,"length",Object.class);
 		append(env,"toInt" ,"toInt",Object.class);
 		append(env,"currentTime" ,"currentTime");
+		append(env, "type", "type", Object.class);
 	}
 	/*
 	 * 将callerName 映射到calledName ,即调用callerName所代表的函数时，转为调用java本地的方法
@@ -77,6 +79,27 @@ public class Natives {
 	
 	public static int currentTime(){
 		return (int) (System.currentTimeMillis()-startTime);
+	}
+	
+	public static String type(Object obj){
+		if(obj instanceof String){
+			return "string";
+		}
+		else if(obj instanceof Integer){
+			return "num";
+		}
+		else if(obj instanceof ArrayList<?>){
+			return "list";
+		}
+		else if(obj instanceof Function){
+			return "function";
+		}
+		else if(obj instanceof NativeFunction){
+			return "nativeFunction";
+		}
+		else{
+			throw new SefaException("cannot find this object type:"+obj.getClass().getName());
+		}
 	}
 	
 }

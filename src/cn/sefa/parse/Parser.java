@@ -7,6 +7,7 @@ import java.util.List;
 import cn.sefa.ast.ASTLeaf;
 import cn.sefa.ast.ASTList;
 import cn.sefa.ast.ASTree;
+import cn.sefa.ast.Break;
 import cn.sefa.ast.IdLeaf;
 import cn.sefa.ast.NumberLiteral;
 import cn.sefa.ast.StringLiteral;
@@ -154,6 +155,15 @@ public class Parser {
 	public Parser string (){
 		return string(StringLiteral.class);
 	}
+
+	public Parser control(Class<? extends ASTLeaf> clazz){
+		if(clazz == Break.class)
+			elements.add(new BreakParser(clazz)) ;
+		else{
+			elements.add(new ContinueParser(clazz));
+		}
+		return this ;
+	}
 	
 /*	public Parser string (){
 		return string(null);
@@ -167,8 +177,6 @@ public class Parser {
 		elements.add(new Expr(clazz,factor,operators)) ;
 		return this;
 	}
-
-	
 	
 }
 

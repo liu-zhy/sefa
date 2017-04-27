@@ -28,15 +28,15 @@ public class Dot extends Postfix {
 				ClassInfo ci = (ClassInfo) target ;
 				NestedEnv newEnv = new NestedEnv(ci.getEnv()) ;
 				initObject(ci,newEnv);  
-				StoneObject so = new StoneObject(newEnv);
+				SefaObject so = new SefaObject(newEnv);
 				newEnv.putInCrtEnv("this",so);
 				return so ;
 			}
 		}
-		else if (target instanceof StoneObject){
+		else if (target instanceof SefaObject){
 			
 			try{
-				return ((StoneObject)target).read(member);
+				return ((SefaObject)target).read(member);
 				
 			}catch(AccessException e){}
 			

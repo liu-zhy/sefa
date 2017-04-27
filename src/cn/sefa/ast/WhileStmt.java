@@ -39,6 +39,8 @@ public class WhileStmt extends ASTList {
 			ASTree block = getBody() ;
 			while((boolean)cond){
 				res = block.eval(env);
+				if(res instanceof Break)
+					return 0;
 				cond = t.eval(env);
 			}
 		}

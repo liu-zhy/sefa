@@ -21,10 +21,8 @@ public class OtherTest {
 	
 	@Test
 	public void test2(){
-		
 		String str = JOptionPane.showInputDialog(null) ;
 		System.out.println(str);
-		
 	}
 
 }

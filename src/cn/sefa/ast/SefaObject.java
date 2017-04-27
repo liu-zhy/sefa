@@ -6,11 +6,11 @@ import java.rmi.AccessException;
  * @author Lionel
  *
  */
-public class StoneObject {
+public class SefaObject {
 
 	private IEnvironment env ;
 	
-	public StoneObject(NestedEnv env) {
+	public SefaObject(NestedEnv env) {
 		this.env = env ;
 	}
 

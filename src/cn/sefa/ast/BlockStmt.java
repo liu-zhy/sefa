@@ -18,8 +18,15 @@ public class BlockStmt extends ASTList {
 	public Object eval(IEnvironment env){
 		Object res = 0 ;
 		for(ASTree t : children){
-			if(!(t instanceof NullStmt))
+			if(!(t instanceof NullStmt)){
+				if(t instanceof Break)
+					return t;
+				else if( t instanceof Continue)
+					return t;
 				res = t.eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
+			}
 		}
 		return res;
 	}

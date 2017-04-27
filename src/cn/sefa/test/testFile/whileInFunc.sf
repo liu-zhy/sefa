@@ -1,0 +1,32 @@
+def func(){
+    i = 0
+    while i == i {
+        if i >= 10 {
+            break
+        }
+        if i % 2 == 0{
+            print("i = "+i+"\n");
+            i = i + 3
+            continue
+        }
+        i = i + 1
+    } 
+}
+
+def cf(){
+    print("cf continue\n");
+    i = 1
+//    continue
+    i=2
+}
+
+def bf(){
+    print("bf break\n");
+    i=3
+    break
+    i = 4
+}
+
+func()
+print(cf()+"\n")
+print(bf()+"\n")

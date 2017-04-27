@@ -45,9 +45,15 @@ public class IfStmt extends ASTList {
 		if(cond instanceof Boolean){
 			if((boolean)cond){
 				res = getThenBlock().eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
 			}
 			else{
+				if(getElseBolck() == null)
+					return res ;
 				res = getElseBolck().eval(env);
+				if(res instanceof Break || res instanceof Continue)
+					return res ;
 			}
 		}
 		else{

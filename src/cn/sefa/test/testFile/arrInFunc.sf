@@ -1,0 +1,50 @@
+def judge(arr,i){
+    if(type(arr[i]) == "num"){
+        if arr[i]%2 == 0{
+            print(arr[i]+" is even\n");
+        }
+        else{
+            print(arr[i]+" is odd\n")
+        }
+    }
+    else{
+        if(type(arr[i]) == "string"){
+            print("the length of "+arr[i]+" is "+length(arr[i])+"\n")
+        }
+    }
+}
+
+def modifyEle(arr,index,val){
+    print("before modifying arr[index]="+arr[index]+"\n")
+    arr[index] = val
+    print("modified successfully: arr[index]="+arr[index]+"\n")
+}
+
+def printArr(arr){
+    len = length(arr)
+    i = 0 
+    while(i<len){
+        if(type(arr[i]) == "list"){
+            printArr(arr[i])
+            i = i + 1
+            continue
+        }
+        judge(arr,i)
+        val = 0 
+        if(type(arr[i]) == "string") {
+            val = arr[i]+" tree"
+        }
+        else{
+            if(type(arr[i]) == "num"){
+                val = arr[i]+100
+            }
+        }
+        modifyEle(arr,i,val)    
+        i = i + 1
+    }
+}
+
+a = [1,2,3,[4,"apple",6],7,"banana"]
+
+printArr(a);
+//modifyEle(a,1,100)

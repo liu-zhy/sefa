@@ -63,7 +63,7 @@ public class Debug {
 			//t.eval(env);
 		}
 	}
-	public static void runTest(Lexer lexer ) throws ParseException {
+	public static void runTest(Lexer lexer) throws ParseException {
 		runTest(lexer,true);
 	}
 	

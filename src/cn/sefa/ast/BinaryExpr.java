@@ -48,8 +48,8 @@ public class BinaryExpr extends ASTList {
 					&& (p.postfix(0) instanceof Dot
 							|| p.postfix(0) instanceof ArrayRef)){
 				Object t = ((PrimaryExpr)left).evalSubExpr(env , 1);
-				if(t instanceof StoneObject){
-					return setField((StoneObject)t , (Dot)p.postfix(0),rval);
+				if(t instanceof SefaObject){
+					return setField((SefaObject)t , (Dot)p.postfix(0),rval);
 				}
 				else if(t instanceof ArrayList<?>){
 					ArrayList<Object> list = (ArrayList<Object>) t ;
@@ -74,7 +74,7 @@ public class BinaryExpr extends ASTList {
 		
 	}
 	
-	private Object setField(StoneObject so, Dot postfix, Object rval) {
+	private Object setField(SefaObject so, Dot postfix, Object rval) {
 		String name = postfix.getName();
 		so.write(name,rval) ;
 		return rval ;
